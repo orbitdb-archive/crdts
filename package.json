@@ -1,0 +1,21 @@
+{
+  "name": "crdts",
+  "version": "0.0.1",
+  "description": "CRDT Library",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "keywords": [
+    "crdt",
+    "crdts"
+  ],
+  "author": "Haad",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
+}
