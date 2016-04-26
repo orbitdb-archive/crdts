@@ -1,7 +1,7 @@
 'use strict';
 
 const assert  = require('assert');
-const Counter = require('../src/gcounter.js');
+const Counter = require('../src/GCounter.js');
 
 describe('G-Counter', () => {
   describe('constructor', () => {
@@ -183,6 +183,19 @@ describe('G-Counter', () => {
       counter1.increment();
       counter1.merge(counter2);
       assert.equal(counter1.value, 3);
+    });
+
+    it('doesn\'t overwrite others\' values on merge', () => {
+      const counter1 = new Counter('A');
+      const counter2 = new Counter('B');
+      counter1.increment();
+      counter2.increment();
+      counter1.merge(counter2);
+      counter2.merge(counter1);
+      counter1.increment();
+      counter2.increment();
+      counter1.merge(counter2);
+      assert.equal(counter1.value, 4);
     });
 
   });

@@ -1,5 +1,7 @@
 'use strict';
 
+const isEqual = require('./utils').isEqual;
+
 class GCounter {
   constructor(id, payload) {
     this.id = id;
@@ -26,35 +28,19 @@ class GCounter {
     if(other.id !== this.id)
       return false;
 
-    return GCounter.isEqual(other._counters, this._counters);
+    return isEqual(other._counters, this._counters);
   }
 
   merge(other) {
-    const payload = Object.assign({}, other._counters);
-    delete payload[this.id];
-    Object.assign(this._counters, payload);
+    Object.keys(other._counters).forEach((f) => {
+      this._counters[f] = Math.max(this._counters[f] ? this._counters[f] : 0, other._counters[f]);
+    });
   }
 
   static from(payload) {
     return new GCounter(payload.id, payload.counters);
   }
 
-  // TODO: move to utils
-  static isEqual(a, b) {
-    const propsA = Object.getOwnPropertyNames(a);
-    const propsB = Object.getOwnPropertyNames(b);
-
-    if(propsA.length !== propsB.length)
-      return false;
-
-    for(let i = 0; i < propsA.length; i ++) {
-      const prop = propsA[i];
-      if(a[prop] !== b[prop])
-        return false;
-    }
-
-    return true;
-  }
 }
 
 module.exports = GCounter;
