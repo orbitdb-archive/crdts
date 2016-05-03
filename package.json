@@ -16,10 +16,8 @@
   "author": "Haad",
   "license": "MIT",
   "devDependencies": {
-    "ipfsd-ctl": "^0.10.1",
     "mocha": "^2.4.5"
   },
   "dependencies": {
-    "ipfs-log": "^1.2.5"
   }
 }
