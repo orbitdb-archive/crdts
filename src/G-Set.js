@@ -40,8 +40,8 @@ class GSet {
     return GSet.isEqual(this, other)
   }
 
-  static from (payload) {
-    return new GSet(payload.values)
+  static from (json) {
+    return new GSet(json.values)
   }
 
   static isEqual (a, b) {
