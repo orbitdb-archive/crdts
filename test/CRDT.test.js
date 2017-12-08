@@ -4,6 +4,7 @@ const assert = require('assert')
 
 const GCounter = require('../src/G-Counter.js')
 const GSet = require('../src/G-Set.js')
+const TwoPSet = require('../src/2P-Set.js')
 
 const crdts = [
   {
@@ -19,6 +20,16 @@ const crdts = [
   {
     type: 'G-Set',
     class: GSet,
+    create: () => new GSet(),
+    update: (crdt, value) => crdt.add(value),
+    multiUpdate: (crdt, values) => values.forEach(crdt.add.bind(crdt)),
+    merge: (crdt, other) => crdt.merge(other),
+    query: (crdt) => new Set(crdt.values),
+    getExpectedMergedValue: (values) => new Set(values),
+  },
+  {
+    type: '2P-Set',
+    class: TwoPSet,
     create: () => new GSet(),
     update: (crdt, value) => crdt.add(value),
     multiUpdate: (crdt, values) => values.forEach(crdt.add.bind(crdt)),
