@@ -1,272 +1,212 @@
-'use strict';
+'use strict'
 
-const assert  = require('assert');
-const Counter = require('../src/G-Counter.js');
+const assert = require('assert')
+const Counter = require('../src/G-Counter.js')
 
 describe('G-Counter', () => {
-  describe('constructor', () => {
-    it('creates a counter', (done) => {
-      const counter = new Counter('A');
-      assert(counter, null);
-      assert.notEqual(counter.id, null);
-      assert.notEqual(counter._counters, null);
-      assert.equal(counter._counters['A'], 0);
-      done();
-    });
-  });
+  describe('Instance', () => {
+    describe('constructor', () => {
+      it('creates a counter', () => {
+        const counter = new Counter('A')
+        assert(counter, null)
+        assert.notEqual(counter.id, null)
+        assert.notEqual(counter._counters, null)
+        assert.equal(counter._counters['A'], 0)
+      })
+    })
 
-  describe('payload', () => {
-    it('returns the payload', (done) => {
-      const counter = new Counter('A');
-      assert.equal(counter.payload.id, 'A');
-      assert.equal(counter.payload.counters.A, 0);
-      done();
-    });
-  });
+    describe('value', () => {
+      it('returns the count', () => {
+        const counter = new Counter('A')
+        assert.equal(counter.value, 0)
+      })
 
-  describe('increment', () => {
-    it('increments the count by 1', (done) => {
-      const counter = new Counter('A');
-      counter.increment();
-      assert.equal(counter.value, 1);
-      done();
-    });
+      it('returns the count after increment', () => {
+        const counter = new Counter('A')
+        counter.increment(5)
+        assert.equal(counter.value, 5)
+      })
+    })
 
-    it('increments the count by 2', (done) => {
-      const counter = new Counter('A');
-      counter.increment();
-      counter.increment();
-      assert.equal(counter.value, 2);
-      done();
-    });
+    describe('increment', () => {
+      it('increments the count by 1', () => {
+        const counter = new Counter('A')
+        counter.increment()
+        assert.equal(counter.value, 1)
+      })
 
-    it('increments the count by 3', (done) => {
-      const counter = new Counter('A');
-      counter.increment(3);
-      assert.equal(counter.value, 3);
-      done();
-    });
+      it('increments the count by 2', () => {
+        const counter = new Counter('A')
+        counter.increment()
+        counter.increment()
+        assert.equal(counter.value, 2)
+      })
 
-    it('increments the count by 42', (done) => {
-      const counter = new Counter('A');
-      counter.increment();
-      counter.increment(42);
-      assert.equal(counter.value, 43);
-      done();
-    });
-  });
+      it('increments the count by 3', () => {
+        const counter = new Counter('A')
+        counter.increment(3)
+        assert.equal(counter.value, 3)
+      })
 
-  describe('decrement', () => {
-    it('can\'t decrease the counter', (done) => {
-      const counter = new Counter('A');
-      counter.increment(-1);
-      assert.equal(counter.value, 0);
-      done();
-    });
+      it('increments the count by 42', () => {
+        const counter = new Counter('A')
+        counter.increment()
+        counter.increment(42)
+        assert.equal(counter.value, 43)
+      })
 
-    it('can\'t decrease the counter', (done) => {
-      const counter = new Counter('A');
-      counter.increment(0);
-      assert.equal(counter.value, 0);
-      done();
-    });
-  });
+      it('can\'t decrease the counter', () => {
+        const counter = new Counter('A')
+        counter.increment(-1)
+        assert.equal(counter.value, 0)
+      })
 
-  describe('value', () => {
-    it('returns the count', (done) => {
-      const counter = new Counter('A');
-      assert.equal(counter.value, 0);
-      done();
-    });
-  });
+      it('can\'t decrease the counter', () => {
+        const counter = new Counter('A')
+        counter.increment(0)
+        assert.equal(counter.value, 0)
+      })
+    })
 
-  describe('serialization', () => {
-    it('returns the payload', (done) => {
-      const counter = new Counter('A');
-      counter.increment();
-      assert.equal(Object.keys(counter.payload.counters).length, 1);
-      assert.equal(counter.payload.counters.A, 1);
-      done();
-    });
+    describe('merge', () => {
+      it('merges two counters with same id', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('A')
+        counter1.increment()
+        counter2.increment()
+        counter1.merge(counter2)
+        assert.equal(counter1.value, 1)
+      })
 
-    it('returns the payload after a merge', (done) => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('B');
-      counter1.increment();
-      counter2.increment();
-      counter1.merge(counter2);
-      counter2.merge(counter1);
-      assert.equal(Object.keys(counter1.payload.counters).length, 2);
-      assert.equal(counter1.payload.counters.A, 1);
-      assert.equal(counter1.payload.counters.B, 1);
-      assert.equal(counter2.payload.counters.A, 1);
-      assert.equal(counter2.payload.counters.B, 1);
-      done();
-    });
+      it('merges two counters with same values', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('B')
+        counter1.increment()
+        counter2.increment()
+        counter1.merge(counter2)
+        counter2.merge(counter1)
+        assert.equal(counter1.value, 2)
+        assert.equal(counter2.value, 2)
+      })
 
-    it('creates a new counter from a serialized counter', () => {
-      const counter1 = new Counter('A');
-      counter1.increment();
-      const data = counter1.payload;
-      const counter2 = Counter.from(counter1.payload);
-      assert.equal(counter2.id, 'A');
-      assert.equal(counter2.value, 1);
-    });
-  });
+      it('merges four different counters', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('B')
+        const counter3 = new Counter('C')
+        const counter4 = new Counter('D')
+        counter1.increment()
+        counter2.increment()
+        counter3.increment()
+        counter4.increment()
+        counter1.merge(counter2)
+        counter1.merge(counter3)
+        counter1.merge(counter4)
+        assert.equal(counter1.value, 4)
+      })
 
-  describe('compare', () => {
-    it('returns true for equal counters', (done) => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('A');
-      counter1.increment();
-      counter2.increment();
-      assert.equal(counter1.compare(counter2), true);
-      done();
-    });
+      it('doesn\'t overwrite its own value on merge', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('B')
+        counter1.increment()
+        counter2.increment()
+        counter1.merge(counter2)
+        counter2.merge(counter1)
+        counter1.increment()
+        counter1.merge(counter2)
+        assert.equal(counter1.value, 3)
+      })
 
-    it('returns false for unequal counters - different id', (done) => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('B');
-      assert.equal(counter1.compare(counter2), false);
-      done();
-    });
+      it('doesn\'t overwrite others\' values on merge', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('B')
+        counter1.increment()
+        counter2.increment()
+        counter1.merge(counter2)
+        counter2.merge(counter1)
+        counter1.increment()
+        counter2.increment()
+        counter1.merge(counter2)
+        assert.equal(counter1.value, 4)
+      })
+    })
 
-    it('returns false for unequal counters - same id, different counts', (done) => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('A');
-      counter1.increment();
-      counter2.increment();
-      counter2.increment();
-      assert.equal(counter1.compare(counter2), false);
-      done();
-    });
-  });
+    describe('toJSON', () => {
+      it('returns the counter as JSON object', () => {
+        const counter = new Counter('A')
+        assert.equal(counter.toJSON().id, 'A')
+        assert.equal(counter.toJSON().counters.A, 0)
+      })
 
-  describe('merge', () => {
-    it('merges with itself', (done) => {
-      const counter = new Counter('A');
-      counter.increment();
-      counter.merge(counter);
-      assert.equal(counter.value, 1);
-      done();
-    });
+      it('returns a JSON object after a merge', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('B')
+        counter1.increment()
+        counter2.increment()
+        counter1.merge(counter2)
+        counter2.merge(counter1)
+        assert.equal(Object.keys(counter1.toJSON().counters).length, 2)
+        assert.equal(counter1.toJSON().counters.A, 1)
+        assert.equal(counter1.toJSON().counters.B, 1)
+        assert.equal(counter2.toJSON().counters.A, 1)
+        assert.equal(counter2.toJSON().counters.B, 1)
+      })
+    })
 
-    it('merges two counters with same id', (done) => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('A');
-      counter1.increment();
-      counter2.increment();
-      counter1.merge(counter2);
-      assert.equal(counter1.value, 1);
-      done();
-    });
+    describe('isEqual', () => {
+      it('returns true for equal counters', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('A')
+        counter1.increment()
+        counter2.increment()
+        assert.equal(counter1.isEqual(counter2), true)
+      })
 
-    it('merges two counters', (done) => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('B');
-      counter1.increment();
-      counter2.increment();
-      counter1.merge(counter2);
-      counter2.merge(counter1);
-      assert.equal(counter1.value, 2);
-      assert.equal(counter2.value, 2);
-      done();
-    });
+      it('returns false for unequal counters - different id', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('B')
+        assert.equal(counter1.isEqual(counter2), false)
+      })
 
-    it('merges four counters', (done) => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('B');
-      const counter3 = new Counter('C');
-      const counter4 = new Counter('D');
-      counter1.increment();
-      counter2.increment();
-      counter3.increment();
-      counter4.increment();
-      counter1.merge(counter2);
-      counter1.merge(counter3);
-      counter1.merge(counter4);
-      assert.equal(counter1.value, 4);
-      done();
-    });
+      it('returns false for unequal counters - same id, different counts', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('A')
+        counter1.increment()
+        counter2.increment()
+        counter2.increment()
+        assert.equal(counter1.isEqual(counter2), false)
+      })
+    })
+  })
 
-    it('doesn\'t overwrite its own value on merge', () => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('B');
-      counter1.increment();
-      counter2.increment();
-      counter1.merge(counter2);
-      counter2.merge(counter1);
-      counter1.increment();
-      counter1.merge(counter2);
-      assert.equal(counter1.value, 3);
-    });
+  describe('GCounter.from', () => {
+    it('creates a new counter from JSON object', () => {
+      const counter1 = new Counter('A')
+      counter1.increment()
 
-    it('doesn\'t overwrite others\' values on merge', () => {
-      const counter1 = new Counter('A');
-      const counter2 = new Counter('B');
-      counter1.increment();
-      counter2.increment();
-      counter1.merge(counter2);
-      counter2.merge(counter1);
-      counter1.increment();
-      counter2.increment();
-      counter1.merge(counter2);
-      assert.equal(counter1.value, 4);
-    });
+      const input = {
+        id: 'A',
+        counters: {
+          A: 1,
+        }
+      }
 
-  });
+      const counter2 = Counter.from(input)
+      assert.equal(Counter.isEqual(counter1, counter2), true)
+      assert.equal(counter2.id, 'A')
+      assert.equal(counter2.value, 1)
+    })
+  })
 
-  describe('is a CRDT', () => {
-    let a, b, c;
-
-    const resetCounters = () => {
-      a = new Counter('A');
-      b = new Counter('B');
-      c = new Counter('C');
-      a.increment(1);
-      b.increment(2);
-      c.increment(3);
-    };
-
-    it('is associative', () => {
-      // a + (b + c)
-      resetCounters();
-      b.merge(c);
-      a.merge(b);
-      const res1 = a.value;
-
-      // (a + b) + c
-      resetCounters();
-      a.merge(b);
-      c.merge(a);
-      const res2 = c.value;
-
-      // associativity: a + (b + c) == (a + b) + c
-      assert.equal(res1, res2);
-    });
-
-    it('is commutative', () => {
-      // a + b
-      resetCounters();
-      a.merge(b);
-      const res1 = a.value;
-
-      // b + a
-      resetCounters();
-      b.merge(a);
-      const res2 = b.value;
-
-      // commutativity: a + b == b + a
-      assert.equal(res1, res2);
-    });
-
-    it('is idempotent', () => {
-      const expected = new Counter('A');
-      expected.increment(1);
-      resetCounters();
-      // idempotence: a + a = a
-      a.merge(a);
-      assert.equal(a.compare(expected), true);
-    });
-  });
-});
+  describe('GCounter.isEqual', () => {
+    it('returns true if to GSets are equal', () => {
+      const values = ['A', 'B', 'C']
+      const counter1 = new Counter('A')
+      const counter2 = new Counter('A')
+      const counter3 = new Counter('B')
+      counter1.increment(2)
+      counter2.increment(2)
+      assert.equal(Counter.isEqual(counter1, counter2), true)
+      assert.equal(Counter.isEqual(counter1, counter3), false)
+    })
+  })
+})
