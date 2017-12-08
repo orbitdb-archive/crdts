@@ -1,7 +1,7 @@
 'use strict';
 
 const assert  = require('assert');
-const Counter = require('../src/GCounter.js');
+const Counter = require('../src/G-Counter.js');
 
 describe('G-Counter', () => {
   describe('constructor', () => {
@@ -245,10 +245,12 @@ describe('G-Counter', () => {
     });
 
     it('is idempotent', () => {
+      const expected = new Counter('A');
+      expected.increment(1);
       resetCounters();
       // idempotence: a + a = a
       a.merge(a);
-      assert.equal(a.compare(a), true);
+      assert.equal(a.compare(expected), true);
     });
   });
 });
