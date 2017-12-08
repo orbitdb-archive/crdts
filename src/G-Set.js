@@ -32,7 +32,9 @@ class GSet {
 
   hasAll (elements) {
     const contains = e => this.has(e)
-    return elements.every(contains)
+    return elements.length > 0
+      ? elements.every(contains) 
+      : this._added.size === 0
   }
 
   toJSON () {

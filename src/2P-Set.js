@@ -43,11 +43,13 @@ class TwoPSet {
 
   hasAll (elements) {
     const contains = e => this.has(e)
-    return elements.every(contains)
+    return elements.length > 0
+      ? elements.every(contains) 
+      : this._added.size === 0
   }
 
   toJSON () {
-    return { 
+    return {
       added: this._added.toArray(),
       removed: this._removed.toArray(),
     }
@@ -66,7 +68,8 @@ class TwoPSet {
   }
 
   static isEqual (a, b) {
-    return a.hasAll(b.toArray())
+    return (a.toArray().length === 0 && b.toArray().length === 0)
+      || a.hasAll(b.toArray())
   }
 
   static difference (a, b) {

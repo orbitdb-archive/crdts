@@ -233,43 +233,5 @@ describe('G-Set', () => {
       })
     })
   })
-
-  describe('GSet.from', () => {
-    it('creates a new G-Set from a JSON object', () => {
-      const values = ['A', 'B', 'C']
-      const input = {
-        id: 'A',
-        values: values,
-      }
-
-      const gset1 = new GSet(values)
-      const gset2 = GSet.from(input)
-
-      assert.deepEqual(new Set(gset2.values), new Set(values))
-    })
-  })
-
-  describe('GSet.isEqual', () => {
-    it('returns true if to GSets are equal', () => {
-      const values = ['A', 'B', 'C']
-      const gset1 = new GSet(values)
-      const gset2 = new GSet(values)
-      const gset3 = new GSet([0])
-      assert.equal(GSet.isEqual(gset1, gset2), true)
-      assert.equal(GSet.isEqual(gset1, gset3), false)
-    })
-  })
-
-  describe('GSet.difference', () => {
-    it('returns a Set of values from GSet A that are not in GSet B', () => {
-      const values = ['A', 'B', 'C']
-      const expectedDiff = ['D', 1]
-      const gset1 = new GSet(values.concat(expectedDiff))
-      const gset2 = new GSet(values)
-      const gset3 = new GSet([0])
-      assert.deepEqual(GSet.difference(gset1, gset2), new Set(expectedDiff))
-      assert.deepEqual(GSet.difference(gset1, gset3), new Set(values.concat(expectedDiff)))
-    })
-  })
 })
 

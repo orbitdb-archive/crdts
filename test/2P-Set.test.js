@@ -326,46 +326,5 @@ describe('2P-Set', () => {
       })
     })
   })
-
-  describe('TwoPSet.from', () => {
-    it('creates a new 2P-Set from a JSON object', () => {
-      const added = [1, 'A', 'B', 'C']
-      const removed = [1]
-      const input = {
-        added: added,
-        removed: removed,
-      }
-
-      const gset1 = new TwoPSet(added, removed)
-      const gset2 = TwoPSet.from(input)
-
-      assert.deepEqual(new Set(gset2.values), new Set(['A', 'B', 'C']))
-    })
-  })
-
-  describe('TwoPSet.isEqual', () => {
-    it('returns true if to 2P-Sets are equal', () => {
-      const values = ['A', 'B', 'C']
-      const gset1 = new TwoPSet(values)
-      const gset2 = new TwoPSet(values)
-      const gset3 = new TwoPSet([0])
-      assert.equal(TwoPSet.isEqual(gset1, gset2), true)
-      assert.equal(TwoPSet.isEqual(gset1, gset3), false)
-    })
-  })
-
-  describe('TwoPSet.difference', () => {
-    it('returns a Set of values from TwoPSet A that are not in TwoPSet B', () => {
-      const addedValues = ['A', 'B', 'C', 13, 'D']
-      const removedValues = ['D', 'B']
-      const expectedDiff = ['E', 1]
-      const expectedValues = ['A', 'C', 13]
-      const gset1 = new TwoPSet(addedValues.concat(expectedDiff), removedValues)
-      const gset2 = new TwoPSet(addedValues)
-      const gset3 = new TwoPSet([0])
-      assert.deepEqual(TwoPSet.difference(gset1, gset2), new Set(expectedDiff))
-      assert.deepEqual(TwoPSet.difference(gset1, gset3), new Set(expectedValues.concat(expectedDiff)))
-    })
-  })
 })
 
