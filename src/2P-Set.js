@@ -68,6 +68,12 @@ class TwoPSet {
   static isEqual (a, b) {
     return a.hasAll(b.toArray())
   }
+
+  static difference (a, b) {
+    const otherIncludes = x => !b.has(x)
+    const difference = new Set(a.toArray().filter(otherIncludes))
+    return difference
+  }
 }
 
 module.exports = TwoPSet

@@ -353,5 +353,19 @@ describe('2P-Set', () => {
       assert.equal(TwoPSet.isEqual(gset1, gset3), false)
     })
   })
+
+  describe('TwoPSet.difference', () => {
+    it('returns a Set of values from TwoPSet A that are not in TwoPSet B', () => {
+      const addedValues = ['A', 'B', 'C', 13, 'D']
+      const removedValues = ['D', 'B']
+      const expectedDiff = ['E', 1]
+      const expectedValues = ['A', 'C', 13]
+      const gset1 = new TwoPSet(addedValues.concat(expectedDiff), removedValues)
+      const gset2 = new TwoPSet(addedValues)
+      const gset3 = new TwoPSet([0])
+      assert.deepEqual(TwoPSet.difference(gset1, gset2), new Set(expectedDiff))
+      assert.deepEqual(TwoPSet.difference(gset1, gset3), new Set(expectedValues.concat(expectedDiff)))
+    })
+  })
 })
 
