@@ -1,5 +1,14 @@
 'use strict'
 
+/**
+ * G-Set
+ *
+ * Operation-based Growth-Only Set CRDT
+ *
+ * Sources: 
+ * "A comprehensive study of Convergent and Commutative Replicated Data Types"
+ * http://hal.upmc.fr/inria-00555588/document, "3.3.1 Grow-Only Set (G-Set)"
+ */
 class GSet {
   constructor (iterable) {
     this._added = new Set(iterable)

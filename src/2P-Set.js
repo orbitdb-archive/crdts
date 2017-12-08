@@ -2,6 +2,15 @@
 
 const GSet = require('../src/G-Set.js')
 
+/**
+ * 2P-Set
+ *
+ * Operation-based Two-Phase Set CRDT
+ *
+ * Sources:
+ * "A comprehensive study of Convergent and Commutative Replicated Data Types"
+ * http://hal.upmc.fr/inria-00555588/document, "3.3.2 2P-Set"
+ */
 class TwoPSet {
   constructor (added, removed) {
     this._added = new GSet(added)

@@ -3,6 +3,16 @@
 const isEqual = require('./utils').isEqual
 const sum = (acc, val) => acc + val
 
+/**
+ * G-Counter
+ *
+ * Operation-based Increment-Only Counter CRDT
+ *
+ * Sources: 
+ * "A comprehensive study of Convergent and Commutative Replicated Data Types"
+ * http://hal.upmc.fr/inria-00555588/document, "3.1.1 Op-based counter and 3.1.2  State-based increment-only Counter (G-Counter)"
+ */
+
 class GCounter {
   constructor (id, counter) {
     this.id = id
