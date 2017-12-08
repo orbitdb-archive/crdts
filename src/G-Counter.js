@@ -1,16 +1,20 @@
-'use strict';
+'use strict'
 
 const isEqual = require('./utils').isEqual
 const sum = (acc, val) => acc + val
 
 class GCounter {
-  constructor(id, payload) {
+  constructor (id, counter) {
     this.id = id
-    this._counters = payload ? payload : {}
+    this._counters = counter ? counter : {}
     this._counters[this.id] = this._counters[this.id] ? this._counters[this.id] : 0
   }
 
-  increment(amount) {
+  get value () {
+    return Object.values(this._counters).reduce(sum, 0)
+  }
+
+  increment (amount) {
     if (amount && amount < 1) 
       return
 
@@ -20,34 +24,35 @@ class GCounter {
     this._counters[this.id] = this._counters[this.id] + amount
   }
 
-  get value() {
-    return Object.values(this._counters).reduce(sum, 0)
+  merge (other) {
+    // Go through each counter in the other counter
+    Object.entries(other._counters).forEach(([id, value]) => {
+      // Take the maximum of the counter value we have or the counter value they have
+      this._counters[id] = Math.max(this._counters[id] || 0, value)
+    })
   }
 
-  get payload() {
+  toJSON () {
     return { 
       id: this.id, 
       counters: this._counters 
     }
   }
 
-  compare(other) {
-    if(other.id !== this.id)
+  isEqual (other) {
+    return GCounter.isEqual(this, other)
+  }
+
+  static from (json) {
+    return new GCounter(json.id, json.counters)
+  }
+
+  static isEqual (a, b) {
+    if(a.id !== b.id)
       return false
 
-    return isEqual(other._counters, this._counters)
+    return isEqual(a._counters, b._counters)
   }
-
-  merge(other) {
-    Object.keys(other._counters).forEach((f) => {
-      this._counters[f] = Math.max(this._counters[f] ? this._counters[f] : 0, other._counters[f])
-    })
-  }
-
-  static from(payload) {
-    return new GCounter(payload.id, payload.counters)
-  }
-
 }
 
 module.exports = GCounter
