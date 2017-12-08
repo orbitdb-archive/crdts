@@ -58,8 +58,8 @@ class GSet {
   }
 
   static difference (a, b) {
-    const otherIncludes = x => !b.has(x)
-    const difference = new Set(a.toArray().filter(otherIncludes))
+    const otherDoesntInclude = x => !b.has(x)
+    const difference = new Set(a.toArray().filter(otherDoesntInclude))
     return difference
   }
 }

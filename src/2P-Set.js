@@ -18,8 +18,8 @@ class TwoPSet {
   }
 
   get values () {
-    const difference = new GSet(this._added.toArray().filter(x => !this._removed.has(x)))
-    return difference.values
+    const difference = GSet.difference(this._added, this._removed)
+    return difference.values()
   }
 
   add (element) {
@@ -37,7 +37,7 @@ class TwoPSet {
   }
 
   has (element) {
-    const difference = new GSet(this._added.toArray().filter(x => !this._removed.has(x)))
+    const difference = GSet.difference(this._added, this._removed)
     return difference.has(element)
   }
 
