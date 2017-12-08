@@ -129,33 +129,31 @@ describe('OR-Set', () => {
         assert.deepEqual(new Set(gset.values), new Set([]))
       })
 
-      it('doesn\'t remove an element from the set with a different tag', () => {
+      it('removes an element from the set when element has multiple tags', () => {
         const gset = new ORSet()
-        gset.add('A', 'A')
-        gset.remove('A', 'B')
-        gset.add('B', 1)
-        gset.remove('B', 2)
-        assert.deepEqual(new Set(gset.values), new Set(['A', 'B']))
+        gset.add('A', 1)
+        gset.add('A', 2)
+        gset.add('A', 3)
+        gset.remove('A')
+        assert.deepEqual(new Set(gset.values), new Set([]))
       })
 
       it('removes an element from the set if all add tags are in removed tags', () => {
         const gset = new ORSet()
         const uid = new Date().getTime()
         gset.add('A', uid)
+        gset.remove('A')
         gset.add('A', uid + 1)
         gset.add('A', uid + 2)
-        gset.remove('A', uid)
-        gset.remove('A', uid + 1)
-        gset.remove('A', uid + 2)
+        gset.remove('A')
         assert.deepEqual(new Set(gset.values), new Set([]))
       })
 
-      it('doesn\'t remove an element from the set if there are any add tags', () => {
+      it('doesn\'t remove an element from the set if element wasn\'t in the set', () => {
         const gset = new ORSet()
         const uid = new Date().getTime()
+        gset.remove('A')
         gset.add('A', uid)
-        gset.add('A', uid + 1)
-        gset.remove('A', uid)
         assert.deepEqual(new Set(gset.values), new Set(['A']))
       })
     })
@@ -165,17 +163,8 @@ describe('OR-Set', () => {
         let tag = new LamportClock('A')
         const gset = new ORSet(null, { compareFunc: LamportClock.compare })
         gset.add('A', tag)
-        gset.remove('A', tag)
+        gset.remove('A')
         assert.deepEqual(new Set(gset.values), new Set([]))
-      })
-
-      it('doesn\'t remove an element from the set with a different tag', () => {
-        let clock = new LamportClock('A')
-        const gset = new ORSet(null, { compareFunc: LamportClock.compare })
-        gset.add('A', clock)
-        clock = clock.tick()
-        gset.remove('A', clock)
-        assert.deepEqual(new Set(gset.values), new Set(['A']))
       })
 
       it('removes an element from the set with the same tag', () => {
@@ -184,22 +173,10 @@ describe('OR-Set', () => {
         const gset = new ORSet(null, { compareFunc: LamportClock.compare })
         clock1 = clock1.tick()
         gset.add('A', clock1)
-        gset.add('A', clock1)
         clock2 = clock2.tick()
-        gset.remove('A', clock2)
+        gset.add('A', clock1)
+        gset.remove('A')
         assert.deepEqual(new Set(gset.values), new Set([]))
-      })
-
-      it('doesn\'t remove an element from the set with a different tag', () => {
-        let clock1 = new LamportClock('A')
-        let clock2 = new LamportClock('B')
-        const gset = new ORSet(null, { compareFunc: LamportClock.compare })
-        clock1 = clock1.tick()
-        gset.add('A', clock1)
-        clock2 = clock2.tick()
-        clock2 = clock2.tick()
-        gset.remove('A', clock2)
-        assert.deepEqual(new Set(gset.values), new Set(['A']))
       })
     })
 

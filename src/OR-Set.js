@@ -12,7 +12,7 @@ const GSet = require('../src/G-Set.js')
  * http://hal.upmc.fr/inria-00555588/document, "3.3.5 Observed-Remove Set (OR-Set)"
  */
 
-class Pair {
+class AddRemovePair {
   constructor (element, added, removed) {
     this.value = element
     this._added = new Set(added)
@@ -25,7 +25,10 @@ class Pair {
       ? this._removed.size > 0 ? Array.from(this._removed).some(f => compareFunc(e, f) === -1) : true
       : !this._removed.has(e)
 
+    // console.log("_added", this._added)
+    // console.log("_removed", this._removed)
     const difference = transformSetToArray(this._added).filter(removesDoesntIncludeGreater)
+    // console.log("diff", difference)
     return difference.length > 0
   }
 }
@@ -33,7 +36,7 @@ class Pair {
 class ORSet {
   constructor (values, options) {
     this._elements = values
-      ? values.map(e => new Pair(e.value, e._added, e._removed))
+      ? values.map(e => new AddRemovePair(e.value, e._added, e._removed))
       : []
 
     this._options = options || {}
@@ -41,34 +44,40 @@ class ORSet {
 
   get values () {
     const union = this._elements.filter(e => e.isAdd(this._options.compareFunc))
+    // console.log("union:", union, new Set(union.map(e => e.value)).values())
     return new Set(union.map(e => e.value)).values()
   }
 
   add (element, uid) {
     const elm = this._elements.find(e => e.value === element)
     if (!elm) {
-      let pair = new Pair(element, [uid])
+      let pair = new AddRemovePair(element, [uid], null)
       this._elements.push(pair)
     } else {
       elm._added.add(uid)
     }
   }
 
-  remove (element, uid) {
+  remove (element) {
     const elm = this._elements.find(e => e.value === element)
-    if (!elm) {
-      let pair = new Pair(element, null, [uid])
-      this._elements.push(pair)
-    } else {
-      elm._removed.add(uid)
+    if (elm) {
+      elm._removed = new Set(elm._added)
+      // let pair = new AddRemovePair(element, null, elm._added)
+      // this._elements.push(pair)
     }
+    // if (!elm) {
+    //   let pair = new AddRemovePair(element, null, [uid])
+    //   this._elements.push(pair)
+    // } else {
+    //   elm._removed.add(uid)
+    // }
   }
 
   merge (other) {
     other._elements.forEach(element => {
       const elm = this._elements.find(e => e.value === element.value)
       if (!elm) {
-        let pair = new Pair(element.value, element._added, element._removed)
+        let pair = new AddRemovePair(element.value, element._added, element._removed)
         this._elements.push(pair)
       } else {
         elm._added.forEach(e => element._added.add(e))
