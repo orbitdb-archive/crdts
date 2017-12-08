@@ -6,6 +6,7 @@ const GCounter = require('../src/G-Counter.js')
 const GSet = require('../src/G-Set.js')
 const TwoPSet = require('../src/2P-Set.js')
 const ORSet = require('../src/OR-Set.js')
+const LWWSet = require('../src/LWW-Set.js')
 
 const added = [1, 2, 3]
 const removed = [1]
@@ -40,7 +41,7 @@ const crdts = [
       removed: removed,
     },
     expectedValues: [2, 3],
-    expectedValuesWithDiff: added.concat(diff),
+    expectedValuesWithDiff: added.slice(1, added.length).concat(diff),
     create: (input) => new TwoPSet(input && input.added ? input.added : [], input && input.removed ? input.removed : []),
     from: (json) => TwoPSet.from(json),
     remove: (crdt, tag) => crdt.remove(tag),
@@ -73,12 +74,45 @@ const crdts = [
       ],
     },
     expectedValues: ['A', 'C'],
-    expectedValuesWithDiff: added.concat(diff),
+    expectedValuesWithDiff: added.slice(1, added.length).concat(diff),
     create: (input) => new ORSet(input && input.values ? input.values : []),
     from: (json) => ORSet.from(json),
     remove: (crdt, tag) => crdt.remove(tag),
     isEqual: (a, b) => ORSet.isEqual(a, b),
     difference: (a, b) => ORSet.difference(a, b),
+  },
+  {
+    type: 'LWW-Set',
+    class: LWWSet,
+    added: added,
+    removed: removed,
+    diff: diff,
+    inputData: {
+      values: [
+        {
+          value: 'A',
+          _added: [1],
+          _removed: [],
+        },
+        {
+          value: 'B',
+          _added: [1],
+          _removed: [1],
+        },
+        {
+          value: 'C',
+          _added: [1, 2],
+          _removed: [2, 3],
+        },
+      ],
+    },
+    expectedValues: ['A', 'B'],
+    expectedValuesWithDiff: added.slice(1, added.length).concat(diff),
+    create: (input) => new LWWSet(input && input.values ? input.values : []),
+    from: (json) => LWWSet.from(json),
+    remove: (crdt, value, tag) => crdt.remove(value, tag + 1),
+    isEqual: (a, b) => LWWSet.isEqual(a, b),
+    difference: (a, b) => LWWSet.difference(a, b),
   },
 ]
 
@@ -110,9 +144,10 @@ describe('Sets - Common', () => {
         const orset2 = CRDT.create()
         const orset3 = CRDT.create()
 
-        addedValues.concat(expectedDiff).forEach(e => orset1.add(e, 0))
-        removedValues.forEach(e => CRDT.remove(orset1, 0))
-        addedValues.forEach(e => orset2.add(e, 0))
+        addedValues.concat(expectedDiff).forEach((e, idx) => orset1.add(e, idx))
+        removedValues.forEach(e => CRDT.remove(orset1, e, 10))
+        addedValues.forEach(e => orset2.add(e, 100))
+
         assert.deepEqual(CRDT.difference(orset1, orset2), new Set(expectedDiff))
         assert.deepEqual(CRDT.difference(orset1, orset3), new Set(expectedValues))
       })

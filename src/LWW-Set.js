@@ -21,18 +21,9 @@ class AddRemovePair {
 
   isAdd (compareFunc) {
     compareFunc = compareFunc ? compareFunc : (a, b) => (a || 0) - (b || 0)
-
     const transformSetToArray = set => Array.from(set.values())
-    // const removesDoesntIncludeGreater = e => compareFunc
-    //   ? this._removed.size > 0 ? Array.from(this._removed).some(f => compareFunc(e, f) > -1) : true
-    //   : this._removed.size > 0 ? Array.from(this._removed).some(f => e - f > -1) : true
-
-    // console.log("_added", this._added)
-    // console.log("_removed", this._removed)
     const added = transformSetToArray(this._added).sort(compareFunc).reverse()
     const removed = transformSetToArray(this._removed).sort(compareFunc).reverse()
-    // console.log("diff", added, removed)
-    // console.log("+++++")
     return compareFunc(added[0], removed[0]) > -1
   }
 }
@@ -44,44 +35,43 @@ class LWWSet {
       : []
 
     this._options = options || {}
+    this._values = new Set()
   }
 
   get values () {
-    // console.log("----------------------------------")
-    const union = this._elements.filter(e => e.isAdd(this._options.compareFunc))
-    // console.log("union:", union, new Set(union.map(e => e.value)).values())
-    return new Set(union.map(e => e.value)).values()
+    const elements = this._elements.filter(e => e.isAdd(this._options.compareFunc))
+    return new Set(elements.map(e => e.value)).values()
   }
 
   add (element, uid = 0) {
-    const elm = this._elements.find(e => e.value === element)
-    if (!elm) {
+    if (!this._values.has(element)) {
       let pair = new AddRemovePair(element, [uid], null)
       this._elements.push(pair)
+      this._values.add(element)
     } else {
+      const elm = this._elements.find(e => e.value === element)
       elm._added.add(uid)
     }
   }
 
   remove (element, uid = 0) {
-    const elm = this._elements.find(e => e.value === element)
-    if (!elm) {
-      let pair = new AddRemovePair(element, null, [uid])
-      this._elements.push(pair)
-    } else {
+    if (this._values.has(element)) {
+      const elm = this._elements.find(e => e.value === element)
       elm._removed.add(uid)
     }
   }
 
   merge (other) {
     other._elements.forEach(element => {
-      const elm = this._elements.find(e => e.value === element.value)
-      if (!elm) {
-        let pair = new AddRemovePair(element.value, element._added, element._removed)
+      const value = element.value
+      if (!this._values.has(value)) {
+        let pair = new AddRemovePair(value, element._added, element._removed)
         this._elements.push(pair)
+        this._values.add(value)
       } else {
+        const elm = this._elements.find(e => e.value === value)
         elm._added.forEach(e => element._added.add(e))
-        elm._removed.forEach(e => element._removed.add(e))       
+        elm._removed.forEach(e => element._removed.add(e))
       }
     })
   }
