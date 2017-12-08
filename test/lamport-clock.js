@@ -20,6 +20,9 @@ class LamportClock {
   }
 
   static compare (a, b) {
+    if (!a || !a.time) a = { time: 0 }
+    if (!b || !b.time) b = { time: 0 }
+
     // Calculate the "distance" based on the clock, ie. lower or greater
     var dist = a.time - b.time
 
