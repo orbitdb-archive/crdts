@@ -1,57 +1,52 @@
-/*
-    WORK IN PROGRESS
-*/
-
-'use strict';
-
-const isEqual = require('./utils').isEqual;
+'use strict'
 
 class GSet {
-  constructor(id, payload) {
-    this.id = id;
-    this._added = {};
-    this._removed = {};
+  constructor (iterable) {
+    this._added = new Set(iterable)
   }
 
-  add(data, ts) {
-    this._added[data] = { ts: ts || new Date().getTime() }
+  get values () {
+    return this._added.values()
   }
 
-  remove(data, ts) {
-    this._removed[data] = { ts: ts || new Date().getTime() }
+  add (element) {
+    this._added.add(element)
   }
 
-  get value() {
-    return Object.keys(this._added)
-      .map((f) => {
-        const removed = this._removed[f];
-        if(!removed || (removed && removed.ts < this._added[f].ts)) {
-          return f;
-        }
-
-        return null;
-      })
-      .filter((f) => f !== null)
+  merge (other) {
+    this._added = new Set([...this._added, ...other._added])
   }
 
-  compare(other) {
-    return false;
-    // if(other.id !== this.id)
-    //   return false;
-
-    // return isEqual(other._counters, this._counters);
+  has (element) {
+    return this._added.has(element)
   }
 
-  merge(other) {
-    // Object.keys(other._counters).forEach((f) => {
-    //   this._counters[f] = Math.max(this._counters[f] ? this._counters[f] : 0, other._counters[f]);
-    // });
+  hasAll (elements) {
+    const contains = e => this.has(e)
+    return elements.every(contains)
   }
 
-  static from(payload) {
-    return new GSet(payload.id, payload.items);
+  toJSON () {
+    return { 
+      values: this.toArray(),
+    }
   }
 
+  toArray () {
+    return Array.from(this.values)
+  }
+
+  isEqual (other) {
+    return GSet.isEqual(this, other)
+  }
+
+  static from (payload) {
+    return new GSet(payload.values)
+  }
+
+  static isEqual (a, b) {
+    return a.hasAll(b.toArray())
+  }
 }
 
-module.exports = GSet;
+module.exports = GSet
