@@ -6,6 +6,7 @@ const GCounter = require('../src/G-Counter.js')
 const GSet = require('../src/G-Set.js')
 const TwoPSet = require('../src/2P-Set.js')
 const ORSet = require('../src/OR-Set.js')
+const LWWSet = require('../src/LWW-Set.js')
 
 const crdts = [
   {
@@ -13,7 +14,6 @@ const crdts = [
     class: GCounter,
     create: (id) => new GCounter(id),
     update: (crdt, value) => crdt.increment(value),
-    multiUpdate: (crdt, values) => values.forEach(crdt.increment.bind(crdt)),
     merge: (crdt, other) => crdt.merge(other),
     query: (crdt) => crdt.value,
     getExpectedMergedValue: (values) => values.reduce((acc, val) => acc + val, 0),
@@ -23,7 +23,6 @@ const crdts = [
     class: GSet,
     create: () => new GSet(),
     update: (crdt, value) => crdt.add(value),
-    multiUpdate: (crdt, values) => values.forEach(crdt.add.bind(crdt)),
     merge: (crdt, other) => crdt.merge(other),
     query: (crdt) => new Set(crdt.values),
     getExpectedMergedValue: (values) => new Set(values),
@@ -33,7 +32,6 @@ const crdts = [
     class: TwoPSet,
     create: () => new GSet(),
     update: (crdt, value) => crdt.add(value),
-    multiUpdate: (crdt, values) => values.forEach(crdt.add.bind(crdt)),
     merge: (crdt, other) => crdt.merge(other),
     query: (crdt) => new Set(crdt.values),
     getExpectedMergedValue: (values) => new Set(values),
@@ -43,7 +41,15 @@ const crdts = [
     class: ORSet,
     create: () => new ORSet(),
     update: (crdt, value) => crdt.add(value),
-    multiUpdate: (crdt, values) => values.forEach(crdt.add.bind(crdt)),
+    merge: (crdt, other) => crdt.merge(other),
+    query: (crdt) => new Set(crdt.values),
+    getExpectedMergedValue: (values) => new Set(values),
+  },
+  {
+    type: 'LWW-Set',
+    class: LWWSet,
+    create: () => new LWWSet(),
+    update: (crdt, value) => crdt.add(value, 0),
     merge: (crdt, other) => crdt.merge(other),
     query: (crdt) => new Set(crdt.values),
     getExpectedMergedValue: (values) => new Set(values),
@@ -65,7 +71,7 @@ describe('CRDT', () => {
         CRDT.update(crdt3, 1)
         CRDT.merge(crdt2, crdt3)
         CRDT.merge(crdt1, crdt2)
-        const expectedValue1 = CRDT.getExpectedMergedValue([42, 2, 1])
+        const expectedValue1 = CRDT.getExpectedMergedValue([2, 42, 1])
         const res1 = CRDT.query(crdt1)
         assert.deepEqual(res1, expectedValue1)
 
@@ -78,7 +84,7 @@ describe('CRDT', () => {
         CRDT.update(crdt6, 1)
         CRDT.merge(crdt4, crdt5)
         CRDT.merge(crdt6, crdt4)
-        const expectedValue2 = CRDT.getExpectedMergedValue([42, 2, 1])
+        const expectedValue2 = CRDT.getExpectedMergedValue([1, 2, 42])
         const res2 = CRDT.query(crdt6)
         assert.deepEqual(res2, expectedValue2)
 
@@ -95,7 +101,7 @@ describe('CRDT', () => {
         CRDT.update(crdt1, 12)
         CRDT.update(crdt2, 43)
         CRDT.merge(crdt1, crdt2)
-        const expectedValue1 = CRDT.getExpectedMergedValue([12, 43])
+        const expectedValue1 = CRDT.getExpectedMergedValue([43, 12])
         const res1 = CRDT.query(crdt1)
         assert.deepEqual(res1, expectedValue1)
 
@@ -122,7 +128,7 @@ describe('CRDT', () => {
         CRDT.update(crdt, 7)
         CRDT.merge(crdt, crdt)
         const res = CRDT.query(crdt)
-        const expectedValue = CRDT.getExpectedMergedValue([3, 42, 7])
+        const expectedValue = CRDT.getExpectedMergedValue([7, 3, 42])
 
         // a + a = a
         assert.deepEqual(res, expectedValue)
