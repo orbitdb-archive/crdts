@@ -56,6 +56,22 @@ describe('G-Counter', () => {
     });
   });
 
+  describe('decrement', () => {
+    it('can\'t decrease the counter', (done) => {
+      const counter = new Counter('A');
+      counter.increment(-1);
+      assert.equal(counter.value, 0);
+      done();
+    });
+
+    it('can\'t decrease the counter', (done) => {
+      const counter = new Counter('A');
+      counter.increment(0);
+      assert.equal(counter.value, 0);
+      done();
+    });
+  });
+
   describe('value', () => {
     it('returns the count', (done) => {
       const counter = new Counter('A');

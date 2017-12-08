@@ -1,6 +1,7 @@
 'use strict';
 
 const isEqual = require('./utils').isEqual;
+const sum = (acc, val) => acc + val
 
 class GCounter {
   constructor(id, payload) {
@@ -10,18 +11,24 @@ class GCounter {
   }
 
   increment(amount) {
-    if(!amount) amount = 1;
+    if (amount && amount < 1) 
+      return
+
+    if (amount === undefined || amount === null)
+      amount = 1;
+
     this._counters[this.id] = this._counters[this.id] + amount;
   }
 
   get value() {
-    return Object.keys(this._counters)
-      .map((f) => this._counters[f])
-      .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+    return Object.values(this._counters).reduce(sum, 0);
   }
 
   get payload() {
-    return { id: this.id, counters: this._counters };
+    return { 
+      id: this.id, 
+      counters: this._counters 
+    };
   }
 
   compare(other) {
