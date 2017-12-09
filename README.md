@@ -2,9 +2,9 @@
 
 A CRDT library for JavaScript.
 
-***WIP***
+***Work In Progress***
 
-This module provides a set of Conflict-Free Replicated Data Types for your JavaScript programs. All CRDTs in this library are currently operation-based.
+This module provides a set of Conflict-Free Replicated Data Types for your JavaScript programs. All CRDTs in this library, except G-Counter, are currently operation-based.
 
 Implemented CRDTs:
 
