@@ -1,9 +1,9 @@
 // Export all supported CRDTs
-exports.GCounter = GCounter = require('./src/G-Counter.js')
-exports.GSet = GSet = require('./src/G-Set.js')
-exports.TwoPSet = TwoPSet = require('./src/2P-Set.js')
-exports.ORSet = ORSet = require('./src/OR-Set.js')
-exports.LWWSet = LWWSet = require('./src/LWW-Set.js')
+exports.GCounter = GCounter = require('./G-Counter.js')
+exports.GSet = GSet = require('./G-Set.js')
+exports.TwoPSet = TwoPSet = require('./2P-Set.js')
+exports.ORSet = ORSet = require('./OR-Set.js')
+exports.LWWSet = LWWSet = require('./LWW-Set.js')
 
 /**
  * CRDTs

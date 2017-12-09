@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require('assert')
-const { LWWSet, GSet } = require('../index.js')
+const { LWWSet, GSet } = require('../src')
 const LamportClock = require('./lamport-clock')
 
 describe('LWW-Set', () => {

@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require('assert')
-const { GSet } = require('../index.js')
+const { GSet } = require('../src')
 
 describe('G-Set', () => {
   describe('Instance', () => {

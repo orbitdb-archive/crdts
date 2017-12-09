@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require('assert')
-const Counter = require('../index.js').GCounter
+const Counter = require('../src').GCounter
 
 describe('G-Counter', () => {
   describe('Instance', () => {

@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require('assert')
-const { ORSet, GSet } = require('../index.js')
+const { ORSet, GSet } = require('../src')
 const LamportClock = require('./lamport-clock')
 
 describe('OR-Set', () => {

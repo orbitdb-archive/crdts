@@ -2,7 +2,7 @@
 
 const assert = require('assert')
 
-const CRDTs = require('../index.js')
+const CRDTs = require('../src')
 const { GCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
 
 const added = [1, 2, 3]
