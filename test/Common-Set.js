@@ -2,11 +2,8 @@
 
 const assert = require('assert')
 
-const GCounter = require('../src/G-Counter.js')
-const GSet = require('../src/G-Set.js')
-const TwoPSet = require('../src/2P-Set.js')
-const ORSet = require('../src/OR-Set.js')
-const LWWSet = require('../src/LWW-Set.js')
+const CRDTs = require('../index.js')
+const { GCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
 
 const added = [1, 2, 3]
 const removed = [1]
