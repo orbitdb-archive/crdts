@@ -11,8 +11,12 @@ describe('OR-Set', () => {
       it('creates a set', () => {
         const gset = new ORSet()
         assert.notEqual(gset, null)
-        assert.notEqual(gset._elements, null)
-        assert.equal(gset._elements instanceof Array, true)
+      })
+
+      it('is a CmRDT Set', () => {
+        const gset = new ORSet()
+        assert.notEqual(gset._operations, null)
+        assert.equal(gset._operations instanceof Array, true)
       })
     })
 

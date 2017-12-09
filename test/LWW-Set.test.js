@@ -11,8 +11,12 @@ describe('LWW-Set', () => {
       it('creates a set', () => {
         const lwwset = new LWWSet()
         assert.notEqual(lwwset, null)
-        assert.notEqual(lwwset._elements, null)
-        assert.equal(lwwset._elements instanceof Array, true)
+      })
+
+      it('is a CmRDT Set', () => {
+        const gset = new LWWSet()
+        assert.notEqual(gset._operations, null)
+        assert.equal(gset._operations instanceof Array, true)
       })
     })
 

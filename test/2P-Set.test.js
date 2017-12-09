@@ -16,6 +16,12 @@ describe('2P-Set', () => {
         assert.equal(gset._removed instanceof GSet, true)
       })
 
+      it('is a GSet', () => {
+        const gset = new TwoPSet()
+        assert.notEqual(gset._values, null)
+        assert.equal(gset._values instanceof Set, true)
+      })
+
       it('creates a set from values', () => {
         const gset = new TwoPSet(['A', 'B'])
         assert.notEqual(gset, null)
@@ -275,12 +281,12 @@ describe('2P-Set', () => {
       it('returns the set as JSON object', () => {
         const gset = new TwoPSet()
         gset.add('A')
-        assert.equal(gset.toJSON().added.length, 1)
-        assert.equal(gset.toJSON().added[0], 'A')
-        assert.equal(gset.toJSON().removed.length, 0)
+        assert.equal(gset.toJSON().values.added.length, 1)
+        assert.equal(gset.toJSON().values.added[0], 'A')
+        assert.equal(gset.toJSON().values.removed.length, 0)
         gset.remove('A')
-        assert.equal(gset.toJSON().removed.length, 1)
-        assert.equal(gset.toJSON().removed[0], 'A')
+        assert.equal(gset.toJSON().values.removed.length, 1)
+        assert.equal(gset.toJSON().values.removed[0], 'A')
       })
 
       it('returns a JSON object after a merge', () => {
@@ -291,11 +297,11 @@ describe('2P-Set', () => {
         gset2.remove('B')
         gset1.merge(gset2)
         gset2.merge(gset1)
-        assert.equal(gset1.toJSON().added.length, 2)
-        assert.equal(gset1.toJSON().added[0], 'A')
-        assert.equal(gset1.toJSON().added[1], 'B')
-        assert.equal(gset1.toJSON().removed.length, 1)
-        assert.equal(gset1.toJSON().removed[0], 'B')
+        assert.equal(gset1.toJSON().values.added.length, 2)
+        assert.equal(gset1.toJSON().values.added[0], 'A')
+        assert.equal(gset1.toJSON().values.added[1], 'B')
+        assert.equal(gset1.toJSON().values.removed.length, 1)
+        assert.equal(gset1.toJSON().values.removed[0], 'B')
       })
     })
 

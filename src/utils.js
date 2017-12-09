@@ -16,12 +16,20 @@ exports.deepEqual = (a, b) => {
   return true
 }
 
-class AddRemovePair {
-  constructor (element, added, removed) {
-    this.value = element
-    this._added = new Set(added)
-    this._removed = new Set(removed)
+class OperationTuple3 {
+  constructor (value, added, removed) {
+    this.value = value
+    this.added = new Set(added || [])
+    this.removed = new Set(removed || [])
+  }
+
+  static create (value, added, removed) {
+    return new OperationTuple3(value, added, removed)
+  }
+
+  static from (json) {
+    return OperationTuple3.create(json.value, json.added, json.removed)
   }
 }
 
-exports.AddRemovePair = AddRemovePair
+exports.OperationTuple3 = OperationTuple3
