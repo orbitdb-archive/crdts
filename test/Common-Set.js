@@ -37,12 +37,14 @@ const crdts = [
     removed: removed,
     diff: diff,
     inputData: {
-      added: added,
-      removed: removed,
+      values: {
+        added: added,
+        removed: removed,
+      }
     },
     expectedValues: [2, 3],
     expectedValuesWithDiff: added.slice(1, added.length).concat(diff),
-    create: (input) => new TwoPSet(input && input.added ? input.added : [], input && input.removed ? input.removed : []),
+    create: (input) => new TwoPSet(input && input.values && input.values.added ? input.values.added : [], input && input.values && input.values.removed ? input.values.removed : []),
     from: (json) => TwoPSet.from(json),
     remove: (crdt, tag) => crdt.remove(tag),
     isEqual: (a, b) => TwoPSet.isEqual(a, b),
@@ -58,18 +60,18 @@ const crdts = [
       values: [
         {
           value: 'A',
-          _added: [1],
-          _removed: [],
+          added: [1],
+          removed: [],
         },
         {
           value: 'B',
-          _added: [1],
-          _removed: [1],
+          added: [1],
+          removed: [1],
         },
         {
           value: 'C',
-          _added: [1, 2],
-          _removed: [2, 3],
+          added: [1, 2],
+          removed: [2, 3],
         },
       ],
     },
@@ -91,18 +93,18 @@ const crdts = [
       values: [
         {
           value: 'A',
-          _added: [1],
-          _removed: [],
+          added: [1],
+          removed: [],
         },
         {
           value: 'B',
-          _added: [1],
-          _removed: [1],
+          added: [1],
+          removed: [1],
         },
         {
           value: 'C',
-          _added: [1, 2],
-          _removed: [2, 3],
+          added: [1, 2],
+          removed: [2, 3],
         },
       ],
     },

@@ -9,15 +9,15 @@ describe('G-Set', () => {
       it('creates a set', () => {
         const gset = new GSet()
         assert.notEqual(gset, null)
-        assert.notEqual(gset._added, null)
-        assert.equal(gset._added instanceof Set, true)
+        assert.notEqual(gset._values, null)
+        assert.equal(gset._values instanceof Set, true)
       })
 
       it('creates a set from values', () => {
         const gset = new GSet(['A', 'B'])
         assert.notEqual(gset, null)
-        assert.equal(gset._added instanceof Set, true)
-        assert.deepEqual(gset._added, new Set(['B', 'A']))
+        assert.equal(gset._values instanceof Set, true)
+        assert.deepEqual(gset._values, new Set(['B', 'A']))
       })
     })
 

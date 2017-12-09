@@ -1,118 +1,56 @@
 'use strict'
 
-const GSet = require('../src/G-Set.js')
+const CRDTSet = require('./CmRDT-Set')
 
 /**
  * LWWSet-Set
  *
  * Operation-based Last-Write-Wins Set CRDT
  *
+ * See base class CmRDT-Set.js for the rest of the API
+ * https://github.com/haadcode/crdts/blob/master/src/CmRDT-Set.js
+ *
  * Sources:
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
- * http://hal.upmc.fr/inria-00555588/document, ???
+ * http://hal.upmc.fr/inria-00555588/document, "Figure 8: LWW-Set (state-based)"
  */
-
-class AddRemovePair {
-  constructor (element, added, removed) {
-    this.value = element
-    this._added = new Set(added)
-    this._removed = new Set(removed)
-  }
-
-  isAdd (compareFunc) {
+class LWWSet extends CRDTSet {
+  /**
+   * @override
+   * 
+   * _resolveState function is used to determine if an element is present in a Set.
+   * 
+   * It receives a Set of add tags and a Set of remove tags for an element as arguments.
+   * It returns true if an element should be included in the state and false if not.
+   * 
+   * Overwriting this function gives us the ability to compare add/remove operations
+   * of a particular element (value) in the set and determine if the value should be
+   * included in the set or not. The function gets called once per element and returning
+   * true will include the value in the set and returning false will exclude it from the set.
+   * 
+   * @param  {[type]} added       [Set of added elements]
+   * @param  {[type]} removed     [Set of removed elements]
+   * @param  {[type]} compareFunc [Comparison function to compare elements with]
+   * @return {[type]}             [true if element should be included in the current state]
+   */
+  _resolveState (added, removed, compareFunc) {
+    // Sort both sets with the given comparison function
+    // or use "distance" sort by default
     compareFunc = compareFunc ? compareFunc : (a, b) => (a || 0) - (b || 0)
-    const transformSetToArray = set => Array.from(set.values())
-    const added = transformSetToArray(this._added).sort(compareFunc).reverse()
-    const removed = transformSetToArray(this._removed).sort(compareFunc).reverse()
-    return compareFunc(added[0], removed[0]) > -1
-  }
-}
-
-class LWWSet {
-  constructor (values, options) {
-    this._elements = values
-      ? values.map(e => new AddRemovePair(e.value, e._added, e._removed))
-      : []
-
-    this._options = options || {}
-    this._values = new Set()
+    const sortedAdded = Array.from(added).sort(compareFunc).reverse()
+    const sortedRemoved = Array.from(removed).sort(compareFunc).reverse()
+    // If the latest add operation is greater or equal than latest remove operation,
+    // we include it in the state
+    return compareFunc(sortedAdded[0], sortedRemoved[0]) > -1
   }
 
-  get values () {
-    const elements = this._elements.filter(e => e.isAdd(this._options.compareFunc))
-    return new Set(elements.map(e => e.value)).values()
-  }
-
-  add (element, uid = 0) {
-    if (!this._values.has(element)) {
-      let pair = new AddRemovePair(element, [uid], null)
-      this._elements.push(pair)
-      this._values.add(element)
-    } else {
-      const elm = this._elements.find(e => e.value === element)
-      elm._added.add(uid)
-    }
-  }
-
-  remove (element, uid = 0) {
-    if (this._values.has(element)) {
-      const elm = this._elements.find(e => e.value === element)
-      elm._removed.add(uid)
-    }
-  }
-
-  merge (other) {
-    other._elements.forEach(element => {
-      const value = element.value
-      if (!this._values.has(value)) {
-        let pair = new AddRemovePair(value, element._added, element._removed)
-        this._elements.push(pair)
-        this._values.add(value)
-      } else {
-        const elm = this._elements.find(e => e.value === value)
-        elm._added.forEach(e => element._added.add(e))
-        elm._removed.forEach(e => element._removed.add(e))
-      }
-    })
-  }
-
-  has (element) {
-    return new Set(this.values).has(element)
-  }
-
-  hasAll (elements) {
-    const contains = e => this.has(e)
-    return elements.length > 0
-      ? elements.every(contains) 
-      : this._elements.length === 0
-  }
-
-  toJSON () {
-    return { 
-      values: this.toArray(),
-    }
-  }
-
-  toArray () {
-    return Array.from(this.values)
-  }
-
-  isEqual (other) {
-    return LWWSet.isEqual(this, other)
-  }
-
+  /**
+   * Create LWWSet from a json object
+   * @param  {[Object]} json [Input object to create the LWWSet from. Needs to be: '{ values: [] }']
+   * @return {[LWWSet]}      [new LWWSet instance]
+   */
   static from (json) {
     return new LWWSet(json.values)
-  }
-
-  static isEqual (a, b) {
-    return a.hasAll(b.toArray())
-  }
-
-  static difference (a, b) {
-    const otherIncludes = x => !b.has(x)
-    const difference = new Set(a.toArray().filter(otherIncludes))
-    return difference
   }
 }
 
