@@ -8,7 +8,7 @@ const CRDTSet = require('./CmRDT-Set')
  * Operation-based Last-Write-Wins Set CRDT
  *
  * See base class CmRDT-Set.js for the rest of the API
- * https://github.com/haadcode/crdts/blob/master/src/CmRDT-Set.js
+ * https://github.com/orbitdb/crdts/blob/master/src/CmRDT-Set.js
  *
  * Sources:
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
