@@ -10,7 +10,7 @@
  * ever be added to the set, they can never be removed.
  * 
  * Used by:
- * CmRDT-Set - https://github.com/haadcode/crdts/blob/master/src/CmRDT-Set.js
+ * CmRDT-Set - https://github.com/orbitdb/crdts/blob/master/src/CmRDT-Set.js
  *
  * Sources: 
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"

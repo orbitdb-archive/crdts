@@ -18,9 +18,9 @@ const { OperationTuple3 } = require('./utils')
  * based on a set of operations.
  *
  * Used by: 
- * OR-Set - https://github.com/haadcode/crdts/blob/master/src/OR-Set.js
- * 2P-Set - https://github.com/haadcode/crdts/blob/master/src/2P-Set.js
- * LWW-Set - https://github.com/haadcode/crdts/blob/master/LWW-Set.js
+ * OR-Set - https://github.com/orbitdb/crdts/blob/master/src/OR-Set.js
+ * 2P-Set - https://github.com/orbitdb/crdts/blob/master/src/2P-Set.js
+ * LWW-Set - https://github.com/orbitdb/crdts/blob/master/LWW-Set.js
  *
  * Sources:
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"

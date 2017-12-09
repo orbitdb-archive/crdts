@@ -9,7 +9,7 @@ const GSet = require('./G-Set.js')
  * Operation-based Two-Phase Set CRDT
  *
  * See base class G-Set.js for the rest of the API
- * https://github.com/haadcode/crdts/blob/master/src/G-Set.js
+ * https://github.com/orbitdb/crdts/blob/master/src/G-Set.js
  *
  * Sources:
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
