@@ -27,22 +27,22 @@ const ORSet = require('crdts/src/OR-Set')
 const LWWSet = require('crdts/src/LWW-Set')
 ```
 
-See [CRDT-Set](https://github.com/haadcode/crdts/blob/master/src/CRDT-Set.js) base class for the API and [tests](https://github.com/haadcode/crdts/blob/master/test/) for usage examples.
+See the [source code for each CRDT](https://github.com/haadcode/crdts/blob/master/src) for the APIs and [tests](https://github.com/haadcode/crdts/blob/master/test/) for usage examples.
 
 ## Inheritance
 
 ```
 +------------------------------------------------------------+
 |           ||           ||          ||         ||           |
-|  OR-Set   ||  LWW-Set  ||          ||         || G-Counter |
+|  OR-Set   ||  LWW-Set  ||  2P-Set  ||  G-Set  || G-Counter |
 |           ||           ||          ||         ||           |
-+-------------------------|  2P-Set  ||  G-Set  +------------+
++-------------------------|          ||         +------------+
 |                        ||          ||         |
 |       CmRDT-Set        ||          ||         |
 |                        ||          ||         |
 +-----------------------------------------------+
 |                                               |
-|                       G-Set                   |
+|                    G-Set                      |
 |                                               |
 +-----------------------------------------------+
 ```
