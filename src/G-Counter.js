@@ -1,6 +1,6 @@
 'use strict'
 
-const isEqual = require('./utils').isEqual
+const { deepEqual } = require('./utils')
 const sum = (acc, val) => acc + val
 
 /**
@@ -61,7 +61,7 @@ class GCounter {
     if(a.id !== b.id)
       return false
 
-    return isEqual(a._counters, b._counters)
+    return deepEqual(a._counters, b._counters)
   }
 }
 
