@@ -53,3 +53,8 @@ See the [source code for each CRDT](https://github.com/orbitdb/crdts/blob/master
 |                                               |
 +-----------------------------------------------+
 ```
+
+## CRDTs
+
+CRDT research:
+https://github.com/ipfs/research-CRDT
