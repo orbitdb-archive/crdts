@@ -1,6 +1,6 @@
 {
   "name": "crdts",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A CRDT Library for JavaScript",
   "main": "src/index.js",
   "repository": {
