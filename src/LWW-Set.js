@@ -18,7 +18,7 @@ class LWWSet extends CRDTSet {
   /**
    * @override
    * 
-   * _resolveState function is used to determine if an element is present in a Set.
+   * _resolveValueState function is used to determine if an element is present in a Set.
    * 
    * It receives a Set of add tags and a Set of remove tags for an element as arguments.
    * It returns true if an element should be included in the state and false if not.
@@ -33,7 +33,7 @@ class LWWSet extends CRDTSet {
    * @param  {[type]} compareFunc [Comparison function to compare elements with]
    * @return {[type]}             [true if element should be included in the current state]
    */
-  _resolveState (added, removed, compareFunc) {
+  _resolveValueState (added, removed, compareFunc) {
     // Sort both sets with the given comparison function
     // or use "distance" sort by default
     compareFunc = compareFunc ? compareFunc : (a, b) => (a || 0) - (b || 0)

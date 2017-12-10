@@ -27,20 +27,20 @@ class ORSet extends CRDTSet {
    * in _resolveState() if all given add tags are present in 
    * remove tags.
    *
-   * @param  {[Any]} element [Value to remove from the Set]
-   * @param  {[Any]} tag     [Optional tag for this remove operation, eg. a clock]
+   * @param  {[Any]} value [Value to remove from the Set]
+   * @param  {[Any]} tag   [Optional tag for this remove operation, eg. a clock]
    */
-  remove (element) {
-    if (this._values.has(element)) {
-      const elm = this._findElement(element)
-      elm.removed = new Set(elm.added)
-    }
+  remove (value) {
+    // Add all observed (known) add tags to the removed tags
+    const removeObserved = e => e.removed = new Set([...e.added, ...e.removed])
+    // Create a remove operation for the value if it exists
+    this._findOperationsFor(value).map(removeObserved)
   }
 
   /**
    * @override
    * 
-   * _resolveState function is used to determine if an element is present in a Set.
+   * _resolveValueState function is used to determine if an element is present in a Set.
    * 
    * It receives a Set of add tags and a Set of remove tags for an element as arguments.
    * It returns true if an element should be included in the state and false if not.
@@ -55,27 +55,22 @@ class ORSet extends CRDTSet {
    * @param  {[type]} compareFunc [Comparison function to compare elements with]
    * @return {[type]}             [true if element should be included in the current state]
    */
-  _resolveState (added, removed, compareFunc) {
+  _resolveValueState (added, removed, compareFunc) {
     // Check if a tag is included in the remove set
-    const removesDontIncludeGreater = e => {
+    const hasMatchingRemoveOperation = addTag => {
+      // Check if remove tags includes the add tag, ie. check for 
+      // equality for the tags using a provided comparison function
       if (compareFunc) {
-        // If remove set has any elements, check it
-        if (removed.size > 0) {
-          // If remove set doesn't include the tag, 
-          // return true to include the value in the state
-          return Array.from(removed).some(f => compareFunc(e, f) === -1)
-        }
-
-        return true
+        return !Array.from(removed).some(removeTag => compareFunc(removeTag, addTag))
       }
+
       // If remove set doesn't have the tag, 
       // return true to include the value in the state
-      return !removed.has(e)
+      return !removed.has(addTag)
     }
-
     // If the remove set doesn't include the add tag,
     // return true to include the value in the state
-    return Array.from(added).filter(removesDontIncludeGreater).length > 0
+    return Array.from(added).filter(hasMatchingRemoveOperation).length > 0
   }
 
   /**

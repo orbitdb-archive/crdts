@@ -4,6 +4,7 @@ const assert = require('assert')
 
 const CRDTs = require('../src')
 const { GCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
+const CmRDTSet = require('../src/CmRDT-Set')
 
 const crdts = [
   {
@@ -21,7 +22,7 @@ const crdts = [
     create: () => new GSet(),
     update: (crdt, value) => crdt.add(value),
     merge: (crdt, other) => crdt.merge(other),
-    query: (crdt) => new Set(crdt.values),
+    query: (crdt) => new Set(crdt.values()),
     getExpectedMergedValue: (values) => new Set(values),
   },
   {
@@ -30,7 +31,7 @@ const crdts = [
     create: () => new GSet(),
     update: (crdt, value) => crdt.add(value),
     merge: (crdt, other) => crdt.merge(other),
-    query: (crdt) => new Set(crdt.values),
+    query: (crdt) => new Set(crdt.values()),
     getExpectedMergedValue: (values) => new Set(values),
   },
   {
@@ -39,7 +40,7 @@ const crdts = [
     create: () => new ORSet(),
     update: (crdt, value) => crdt.add(value),
     merge: (crdt, other) => crdt.merge(other),
-    query: (crdt) => new Set(crdt.values),
+    query: (crdt) => new Set(crdt.values()),
     getExpectedMergedValue: (values) => new Set(values),
   },
   {
@@ -48,7 +49,7 @@ const crdts = [
     create: () => new LWWSet(),
     update: (crdt, value) => crdt.add(value, 0),
     merge: (crdt, other) => crdt.merge(other),
-    query: (crdt) => new Set(crdt.values),
+    query: (crdt) => new Set(crdt.values()),
     getExpectedMergedValue: (values) => new Set(values),
   },
 ]

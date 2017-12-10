@@ -4,6 +4,7 @@ const assert = require('assert')
 
 const CRDTs = require('../src')
 const { GCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
+const CmRDTSet = require('../src/CmRDT-Set')
 
 const added = [1, 2, 3]
 const removed = [1]
@@ -46,6 +47,39 @@ const crdts = [
     remove: (crdt, tag) => crdt.remove(tag),
     isEqual: (a, b) => TwoPSet.isEqual(a, b),
     difference: (a, b) => TwoPSet.difference(a, b),
+  },
+  {
+    type: 'CmRDT-Set',
+    class: CmRDTSet,
+    added: added,
+    removed: removed,
+    diff: diff,
+    inputData: {
+      values: [
+        {
+          value: 'A',
+          added: [1],
+          removed: [],
+        },
+        {
+          value: 'B',
+          added: [1],
+          removed: [1],
+        },
+        {
+          value: 'C',
+          added: [1, 2],
+          removed: [2, 3],
+        },
+      ],
+    },
+    expectedValues: ['A'],
+    expectedValuesWithDiff: added.slice(1, added.length).concat(diff),
+    create: (input) => new CmRDTSet(input && input.values ? input.values : []),
+    from: (json) => new CmRDTSet(json && json.values ? json.values : []),
+    remove: (crdt, tag) => crdt.remove(tag),
+    isEqual: (a, b) => CmRDTSet.isEqual(a, b),
+    difference: (a, b) => CmRDTSet.difference(a, b),
   },
   {
     type: 'OR-Set',
@@ -119,18 +153,50 @@ describe('Sets - Common', () => {
   crdts.forEach(async (CRDT) => {
     describe(CRDT.type, () => {
       it('creates a new ' + CRDT.type + ' from a JSON object', () => {
-        const orset1 = CRDT.create(CRDT.inputData)
-        const orset2 = CRDT.from(CRDT.inputData)
-        assert.deepEqual(new Set(orset2.values), new Set(CRDT.expectedValues))
+        const crdt1 = CRDT.create(CRDT.inputData)
+        const crdt2 = CRDT.from(CRDT.inputData)
+        assert.deepEqual(new Set(crdt2.values()), new Set(CRDT.expectedValues))
+      })
+
+      it('is a Set', () => {
+        const crdt = CRDT.create()
+        assert.equal(crdt instanceof Set, true)
+      })
+
+      it('provides a JSON object and creates itself from it', () => {
+        const crdt1 = CRDT.create()
+        crdt1.add('A')
+        crdt1.add('B')
+        crdt1.add('C')
+        const crdt2 = CRDT.class.from(crdt1.toJSON())
+        assert.deepEqual(new Set(crdt2.values()), new Set(crdt1.values()))
+      })
+
+      it('toArray() returns the values in the set as an array', () => {
+        const crdt1 = CRDT.create()
+        crdt1.add('A')
+        crdt1.add('B')
+        crdt1.add('C')
+        assert.deepEqual(crdt1.toArray(), ['A', 'B', 'C'])
       })
 
       it('returns true if two Sets are equal', () => {
-        const orset1 = CRDT.create(CRDT.inputData)
-        const orset2 = CRDT.create(CRDT.inputData)
-        const orset3 = CRDT.create([])
-        assert.equal(CRDT.isEqual(orset1, orset2), true)
-        const isEqual = CRDT.isEqual(orset1, orset3)
+        const crdt1 = CRDT.create(CRDT.inputData)
+        const crdt2 = CRDT.create(CRDT.inputData)
+        const crdt3 = CRDT.create([])
+        assert.equal(CRDT.isEqual(crdt1, crdt2), true)
+        const isEqual = CRDT.isEqual(crdt1, crdt3)
         assert.equal(isEqual, false)
+      })
+
+      it('returns true if set has all values', () => {
+        const crdt1 = CRDT.create(CRDT.inputData)
+        assert.equal(crdt1.hasAll(CRDT.expectedValues), true)
+      })
+
+      it('returns false if set doesn\'t have all values', () => {
+        const crdt1 = CRDT.create(CRDT.inputData)
+        assert.equal(crdt1.hasAll(CRDT.expectedValues.concat(['extra', 1])), false)
       })
 
       it('returns a Set of values from Set A that are not in Set B', () => {
@@ -139,16 +205,16 @@ describe('Sets - Common', () => {
         const expectedDiff = CRDT.diff
         const expectedValues = CRDT.expectedValuesWithDiff
 
-        const orset1 = CRDT.create()
-        const orset2 = CRDT.create()
-        const orset3 = CRDT.create()
+        const crdt1 = CRDT.create()
+        const crdt2 = CRDT.create()
+        const crdt3 = CRDT.create()
 
-        addedValues.concat(expectedDiff).forEach((e, idx) => orset1.add(e, idx))
-        removedValues.forEach(e => CRDT.remove(orset1, e, 10))
-        addedValues.forEach(e => orset2.add(e, 100))
+        addedValues.concat(expectedDiff).forEach((e, idx) => crdt1.add(e, idx))
+        removedValues.forEach(e => CRDT.remove(crdt1, e, 10))
+        addedValues.forEach(e => crdt2.add(e, 100))
 
-        assert.deepEqual(CRDT.difference(orset1, orset2), new Set(expectedDiff))
-        assert.deepEqual(CRDT.difference(orset1, orset3), new Set(expectedValues))
+        assert.deepEqual(CRDT.difference(crdt1, crdt2), new Set(expectedDiff))
+        assert.deepEqual(CRDT.difference(crdt1, crdt3), new Set(expectedValues))
       })
     })
   })

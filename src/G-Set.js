@@ -1,27 +1,32 @@
 'use strict'
 
+const CRDTSet = require('./CmRDT-Set')
+
 /**
  * G-Set
  *
  * Operation-based Grow-Only Set CRDT
  *
- * The G-Set works as a base class for many other Set CRDTs.
  * G stands for "Grow-Only" which means that values can only
  * ever be added to the set, they can never be removed.
  * 
+ * See base class CmRDT-Set.js for the rest of the API
+ * https://github.com/orbitdb/crdts/blob/master/src/CmRDT-Set.js
+ *
  * Used by:
- * CmRDT-Set - https://github.com/orbitdb/crdts/blob/master/src/CmRDT-Set.js
+ * 2P-Set - https://github.com/orbitdb/crdts/blob/master/src/2P-Set.js
  *
  * Sources: 
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
  * http://hal.upmc.fr/inria-00555588/document, "3.3.1 Grow-Only Set (G-Set)"
  */
-class GSet {
+class GSet extends CRDTSet {
   /**
    * Create a G-Set CRDT instance
    * @param  {[Iterable]} iterable [Opetional Iterable object (eg. Array, Set) to create the GSet from]
    */
   constructor (iterable) {
+    super()
     this._values = new Set(iterable)
   }
 
@@ -29,7 +34,7 @@ class GSet {
    * Return all values added to the Set
    * @return {[Iterator]} [Iterator for values in the Set]
    */
-  get values () {
+  values () {
     return this._values.values()
   }
 
@@ -49,7 +54,7 @@ class GSet {
   // Including this to satisfy normal Set API in case the user
   // accidentally calls remove on GSet
   remove (value) {
-    throw new Error('G-Set doesn\'t allow removing values')
+    throw new Error(`G-Set doesn't allow removing values`)
   }
 
   /**
@@ -59,27 +64,6 @@ class GSet {
   merge (other) {
     // Merge values of other set with this set
     this._values = new Set([...this._values, ...other._values])
-  }
-
-  /**
-   * Check if this GSet has a value
-   * @param  {[Any]}  value [Value to look for]
-   * @return {Boolean}      [True if value is in the GSet, false if not]
-   */
-  has (value) {
-    return new Set(this.values).has(value)
-  }
-
-  /**
-   * Check if this GSet has all values of an input array
-   * @param  {[Array]}  values [Values that should be in the GSet]
-   * @return {Boolean}         [True if all values are in the GSet, false if not]
-   */
-  hasAll (values) {
-    const contains = e => this.has(e)
-    return values.length > 0
-      ? values.every(contains) 
-      : this._values.size === 0
   }
 
   /**
@@ -93,57 +77,12 @@ class GSet {
   }
 
   /**
-   * Create an Array of the values of this GSet
-   * @return {[Array]} [Values of this GSet as an Array]
-   */
-  toArray () {
-    return Array.from(this.values)
-  }
-
-  /**
-   * Check if this GSet equal another GSet
-   * @param  {[type]}  other [GSet to compare]
-   * @return {Boolean}       [True if this GSet is the same as the other GSet]
-   */
-  isEqual (other) {
-    return GSet.isEqual(this, other)
-  }
-
-  /**
    * Create GSet from a json object
    * @param  {[Object]} json [Input object to create the GSet from. Needs to be: '{ values: [] }']
    * @return {[GSet]}        [new GSet instance]
    */
   static from (json) {
     return new GSet(json.values)
-  }
-
-  /**
-   * Check if two GSets are equal
-   *
-   * Two GSet are equal if they both contain exactly 
-   * the same values.
-   * 
-   * @param  {[GSet]}  a [GSet to compare]
-   * @param  {[GSet]}  b [GSet to compare]
-   * @return {Boolean}   [True input GSets are the same]
-   */
-  static isEqual (a, b) {
-    return (a.toArray().length === b.toArray().length)
-      && a.hasAll(b.toArray())
-  }
-
-  /**
-   * Return the difference between the values of two GSets
-   * 
-   * @param  {[GSet]} a [First GSet]
-   * @param  {[GSet]} b [Second GSet]
-   * @return {[Set]}    [Set of values that are in GSet A but not in GSet B]
-   */
-  static difference (a, b) {
-    const otherIncludes = x => !b.has(x)
-    const difference = new Set(a.toArray().filter(otherIncludes))
-    return difference
   }
 }
 
