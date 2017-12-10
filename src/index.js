@@ -4,6 +4,7 @@ exports.GSet = GSet = require('./G-Set.js')
 exports.TwoPSet = TwoPSet = require('./2P-Set.js')
 exports.ORSet = ORSet = require('./OR-Set.js')
 exports.LWWSet = LWWSet = require('./LWW-Set.js')
+exports.PNCounter = PNCounter = require('./PN-Counter.js')
 
 /**
  * CRDTs
@@ -23,4 +24,5 @@ module.exports = {
   TwoPSet: TwoPSet,
   ORSet: ORSet,
   LWWSet: LWWSet,
+  PNCounter: PNCounter
 }
