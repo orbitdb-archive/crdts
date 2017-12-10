@@ -19,6 +19,10 @@ class LamportClock {
     return new LamportClock(this.id, this.time)
   }
 
+  static isEqual (a, b) {
+    return a.id == b.id && a.time == b.time
+  }
+
   static compare (a, b) {
     if (!a || !a.time) a = { time: 0 }
     if (!b || !b.time) b = { time: 0 }
