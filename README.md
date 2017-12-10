@@ -52,5 +52,6 @@ CRDT Type  |                 Operation-Based               |        State-based 
 
 ## CRDTs
 
-CRDT research:
-https://github.com/ipfs/research-CRDT
+- ["A comprehensive study of Convergent and Commutative Replicated Data Types"](http://hal.upmc.fr/inria-00555588/document) paper
+- [CRDTs on Wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Known_CRDTs)
+- [IPFS's CRDT research group](https://github.com/ipfs/research-CRDT)
