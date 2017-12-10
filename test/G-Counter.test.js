@@ -175,6 +175,13 @@ describe('G-Counter', () => {
         counter2.increment()
         assert.equal(counter1.isEqual(counter2), false)
       })
+
+      it('returns false for unequal counters - different counters', () => {
+        const counter1 = new Counter('A')
+        const counter2 = new Counter('A')
+        counter2._counters['extra'] = 'world'
+        assert.equal(counter1.isEqual(counter2), false)
+      })
     })
   })
 
