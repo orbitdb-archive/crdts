@@ -19,8 +19,8 @@ exports.deepEqual = (a, b) => {
 class OperationTuple3 {
   constructor (value, added, removed) {
     this.value = value
-    this.added = new Set(added || [])
-    this.removed = new Set(removed || [])
+    this.added = new Set(added)
+    this.removed = new Set(removed)
   }
 
   static create (value, added, removed) {

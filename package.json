@@ -26,6 +26,7 @@
   },
   "dependencies": {},
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/mocha",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   }
 }
