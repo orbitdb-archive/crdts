@@ -13,6 +13,7 @@ This module provides a set of Conflict-Free Replicated Data Types for your JavaS
 Implemented CRDTs:
 
 - [G-Counter](https://github.com/orbitdb/crdts/blob/master/src/G-Counter.js)
+- [PN-Counter](https://github.com/orbitdb/crdts/blob/master/src/PN-Counter.js)
 - [G-Set](https://github.com/orbitdb/crdts/blob/master/src/G-Set.js)
 - [2P-Set](https://github.com/orbitdb/crdts/blob/master/src/2P-Set.js)
 - [OR-Set](https://github.com/orbitdb/crdts/blob/master/src/OR-Set.js)
@@ -25,6 +26,7 @@ npm install crdts
 
 ```javascript
 const GCounter = require('crdts').GCounter
+const PNCounter = require('crdts').PNCounter
 const GSet = require('crdts').GSet
 const TwoPSet = require('crdts').TwoPSet
 const ORSet = require('crdts').ORSet
@@ -39,13 +41,13 @@ See the [source code for each CRDT](https://github.com/orbitdb/crdts/blob/master
 ## Inheritance
 
 ```
-           +-----------++-----------++----------++---------++------------+
-Data Type  |  OR-Set   ||  LWW-Set  ||  2P-Set  ||  G-Set  || G-Counter  |
-           +-----------++-----------++----------++---------++------------+
-Base Class |                    CmRDT-Set                  |      --     |
-           |-----------------------------------------------+-------------+
-CRDT Type  |                 Operation-Based               | State-based |
-           +-----------------------------------------------+-------------+
+           +-----------++-----------++----------++---------++------------++------------+
+Data Type  |  OR-Set   ||  LWW-Set  ||  2P-Set  ||  G-Set  || G-Counter  || PN-Counter |
+           +-----------++-----------++----------++---------++------------++------------+
+Base Class |                    CmRDT-Set                  |             --            |
+           |-----------------------------------------------+---------------------------+
+CRDT Type  |                 Operation-Based               | State-based               |
+           +-----------------------------------------------+---------------------------+
 ```
 
 ## CRDTs
