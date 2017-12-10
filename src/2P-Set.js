@@ -8,14 +8,14 @@ const GSet = require('./G-Set.js')
  *
  * Operation-based Two-Phase Set CRDT
  *
- * See base class G-Set.js for the rest of the API
- * https://github.com/orbitdb/crdts/blob/master/src/G-Set.js
+ * See base class CmRDT-Set.js for the rest of the API
+ * https://github.com/orbitdb/crdts/blob/master/src/CmRDT-Set.js
  *
  * Sources:
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
  * http://hal.upmc.fr/inria-00555588/document, "3.3.2 2P-Set"
  */
-class TwoPSet extends GSet {
+class TwoPSet extends CRDTSet {
   /**
    * Create a new TwoPSet instance
    * @param  {[Iterable]} added   [Added values]
@@ -34,8 +34,11 @@ class TwoPSet extends GSet {
    * @override
    * @return {[Iterator]} [Iterator for values in the Set]
    */
-  get values () {
-    // Include elements that are in the add set but not in the remove set
+  values () {
+    // A value is included in the set if it's present in 
+    // the add set and not present in the remove set. We can
+    // determine this by calculating the difference between
+    // adds and removes.
     const difference = GSet.difference(this._added, this._removed)
     return difference.values()
   }
