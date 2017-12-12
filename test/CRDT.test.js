@@ -3,7 +3,7 @@
 const assert = require('assert')
 
 const CRDTs = require('../src')
-const { GCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
+const { GCounter, PNCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
 const CmRDTSet = require('../src/CmRDT-Set')
 
 const crdts = [
@@ -15,6 +15,18 @@ const crdts = [
     merge: (crdt, other) => crdt.merge(other),
     query: (crdt) => crdt.value,
     getExpectedMergedValue: (values) => values.reduce((acc, val) => acc + val, 0),
+  },
+  {
+    type: 'PN-Counter',
+    class: PNCounter,
+    create: (id) => new PNCounter(id),
+    update: (crdt, value) => {
+      crdt.increment(value + 1)
+      crdt.decrement(value)
+    },
+    merge: (crdt, other) => crdt.merge(other),
+    query: (crdt) => crdt.value,
+    getExpectedMergedValue: (values) => -values.reduce((acc, val) => acc + val, 0) + values.reduce((acc, val) => (acc + 1) + val, 0),
   },
   {
     type: 'G-Set',
