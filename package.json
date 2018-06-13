@@ -21,12 +21,23 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {
-    "mocha": "^4.0.1"
-  },
   "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "mocha": "^4.0.1",
+    "uglifyjs-webpack-plugin": "~1.1.0",
+    "webpack": "^3.10.0"
+  },
   "scripts": {
     "test": "./node_modules/.bin/mocha",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha",
+    "build": "npm run build:es5 && npm run build:debug && npm run build:dist",
+    "build:dist": "webpack --config webpack.config.js --sort-modules-by size",
+    "build:debug": "webpack --config webpack.config.dev.js --sort-modules-by size",
+    "build:es5": "babel src --out-dir ./dist/es5/ --presets babel-preset-env --plugins babel-plugin-transform-runtime"
   }
 }
