@@ -3,10 +3,10 @@
 const GCounter = require('../src/G-Counter.js')
 
 class PNCounter {
-  constructor (id, pCounter, nCounter) {	
+  constructor (id, pCounters, nCounters) {
     this.id = id
-    this.p = pCounter ? pCounter : new GCounter(id)
-    this.n = nCounter ? nCounter : new GCounter(id)
+    this.p = new GCounter(id, pCounters)
+    this.n = new GCounter(id, nCounters)
   }
 
   get value() {
@@ -25,18 +25,18 @@ class PNCounter {
     this.p.merge(other.p)
     this.n.merge(other.n)
   }
-  
+
   toJSON () {
     return {
       id: this.id,
-      p: this.p,
-      n: this.n
+      p: this.p._counters,
+      n: this.n._counters
     }
   }
 
   isEqual (other) {
    return PNCounter.isEqual(this, other)
-  } 
+  }
 
   static from (json) {
     return new PNCounter(json.id, json.p, json.n)
