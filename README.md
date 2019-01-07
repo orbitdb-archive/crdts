@@ -8,7 +8,7 @@ A CRDT library for JavaScript.
 
 ***Work In Progress***
 
-This module provides a set of Conflict-Free Replicated Data Types for your JavaScript programs. All CRDTs in this library, except G-Counter, are currently operation-based.
+> This module provides a set of Conflict-Free Replicated Data Types for your JavaScript programs. All CRDTs in this library, except G-Counter, are currently operation-based.
 
 Implemented CRDTs:
 
@@ -19,10 +19,14 @@ Implemented CRDTs:
 - [OR-Set](https://github.com/orbitdb/crdts/blob/master/src/OR-Set.js)
 - [LWW-Set](https://github.com/orbitdb/crdts/blob/master/src/LWW-Set.js)
 
-## Usage
+## install
+
 ```
 npm install crdts
 ```
+
+## Usage
+
 
 ```javascript
 const GCounter = require('crdts').GCounter
@@ -56,6 +60,12 @@ CRDT Type  |                 Operation-Based               |        State-based 
 - [CRDTs on Wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Known_CRDTs)
 - [IPFS's CRDT research group](https://github.com/ipfs/research-CRDT)
 
+## Contribute
+
+If you think this could be better, please [open an issue](https://github.com/orbitdb/repo-template/issues/new)!
+
+Please note that all interactions in @orbitdb fall under our [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## License
 
-[MIT](LICENSE) © 2016-2018 Protocol Labs Inc., Haja Networks Oy
+[MIT](LICENSE) © 2016-2019 Protocol Labs Inc., Haja Networks Oy
