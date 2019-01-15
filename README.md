@@ -10,7 +10,7 @@
 
 This module provides a set of Conflict-Free Replicated Data Types for your JavaScript programs. All CRDTs in this library, except G-Counter, are currently operation-based.
 
-Implemented CRDTs:
+CRDTs implemented in this module:
 
 - [G-Counter](https://github.com/orbitdb/crdts/blob/master/src/G-Counter.js)
 - [PN-Counter](https://github.com/orbitdb/crdts/blob/master/src/PN-Counter.js)
@@ -57,7 +57,9 @@ CRDT Type  |                 Operation-Based               |        State-based 
            +-----------------------------------------------+---------------------------+
 ```
 
-## CRDTs
+## CRDTs Research
+
+To learn more about CRDTs, check out this research:
 
 - ["A comprehensive study of Convergent and Commutative Replicated Data Types"](http://hal.upmc.fr/inria-00555588/document) paper
 - [CRDTs on Wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Known_CRDTs)
@@ -67,7 +69,7 @@ CRDT Type  |                 Operation-Based               |        State-based 
 
 If you think this could be better, please [open an issue](https://github.com/orbitdb/crdts/issues/new)!
 
-Please note that all interactions in @orbitdb fall under our [Code of Conduct](CODE_OF_CONDUCT.md).
+Please note that all interactions in [@OrbitDB](https://github.com/OrbitDB) fall under our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
