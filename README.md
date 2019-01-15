@@ -2,9 +2,9 @@
 
 [![npm version](https://badge.fury.io/js/crdts.svg)](https://www.npmjs.com/package/crdts)
 [![CircleCI](https://circleci.com/gh/orbitdb/crdts.svg?style=shield)](https://circleci.com/gh/orbitdb/crdts)
-[![](https://img.shields.io/badge/freenode-%23orbitdb-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23orbitdb)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/orbitdb/Lobby)
 
-A CRDT library for JavaScript.
+> A library of Conflict-Free Replicated Data Types for JavaScript.
 
 ***Work In Progress***
 
@@ -19,10 +19,17 @@ Implemented CRDTs:
 - [OR-Set](https://github.com/orbitdb/crdts/blob/master/src/OR-Set.js)
 - [LWW-Set](https://github.com/orbitdb/crdts/blob/master/src/LWW-Set.js)
 
+## Install
+
+This module uses [npm](https://www.npmjs.com/) and [node](https://nodejs.org/en/).
+
+To install, run:
+
+```sh
+$ npm install --save crdts
+```
+
 ## Usage
-```
-npm install crdts
-```
 
 ```javascript
 const GCounter = require('crdts').GCounter
@@ -56,6 +63,12 @@ CRDT Type  |                 Operation-Based               |        State-based 
 - [CRDTs on Wikipedia](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Known_CRDTs)
 - [IPFS's CRDT research group](https://github.com/ipfs/research-CRDT)
 
+## Contribute
+
+If you think this could be better, please [open an issue](https://github.com/orbitdb/crdts/issues/new)!
+
+Please note that all interactions in @orbitdb fall under our [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## License
 
-[MIT](LICENSE) © 2016-2018 Protocol Labs Inc., Haja Networks Oy
+[MIT](LICENSE) © 2016-2018 Protocol Labs Inc., 2018-2019 Haja Networks Oy
