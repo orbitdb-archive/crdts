@@ -73,4 +73,4 @@ Please note that all interactions in [@OrbitDB](https://github.com/OrbitDB) fall
 
 ## License
 
-[MIT](LICENSE) © 2016-2018 Protocol Labs Inc., 2018-2019 Haja Networks Oy
+[MIT](LICENSE) © 2017-2019 Haja Networks Oy
