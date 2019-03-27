@@ -31,7 +31,10 @@
     "test": "./node_modules/.bin/mocha",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   },
-  "maintainer": [
-    "haad <haad@headbanggames.com>"
-  ]
+  "orbitdb": {
+    "maintainer": [
+      "haad <haad@headbanggames.com>",
+      "shamb0t <shams.methnani@gmail.com>"
+    ]
+  }
 }
