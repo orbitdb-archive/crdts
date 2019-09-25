@@ -31,10 +31,9 @@
     "test": "./node_modules/.bin/mocha",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   },
-  "orbitdb": {
-    "maintainer": [
-      "haad <haad@haja.io>",
-      "shamb0t <shams.methnani@gmail.com>"
-    ]
-  }
+  "localMaintainers": [
+    "haad <haad@haja.io>",
+    "shamb0t <shams@haja.io>",
+    "hajamark <mark@haja.io>"
+  ]
 }
