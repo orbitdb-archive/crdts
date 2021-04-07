@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/crdts.svg)](https://www.npmjs.com/package/crdts)
 [![CircleCI](https://circleci.com/gh/orbitdb/crdts.svg?style=shield)](https://circleci.com/gh/orbitdb/crdts)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/orbitdb/Lobby) [![Matrix](https://img.shields.io/badge/matrix-%23orbitdb%3Apermaweb.io-blue.svg)](https://riot.permaweb.io/#/room/#orbitdb:permaweb.io) [![Discord](https://img.shields.io/discord/475789330380488707?color=blueviolet&label=discord)](https://discord.gg/cscuf5T)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/orbitdb/Lobby) [![Matrix](https://img.shields.io/badge/matrix-%23orbitdb%3Apermaweb.io-blue.svg)](https://riot.permaweb.io/#/room/#orbitdb:permaweb.io)
 
 > A library of Conflict-Free Replicated Data Types for JavaScript.
 
