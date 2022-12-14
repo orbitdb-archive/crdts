@@ -1,6 +1,4 @@
-'use strict'
-
-const CRDTSet = require('./CmRDT-Set')
+import CRDTSet from './CmRDT-Set.js'
 
 /**
  * G-Set
@@ -20,7 +18,7 @@ const CRDTSet = require('./CmRDT-Set')
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
  * http://hal.upmc.fr/inria-00555588/document, "3.3.1 Grow-Only Set (G-Set)"
  */
-class GSet extends CRDTSet {
+export default class GSet extends CRDTSet {
   /**
    * Create a G-Set CRDT instance
    * @param  {[Iterable]} iterable [Opetional Iterable object (eg. Array, Set) to create the GSet from]
@@ -85,5 +83,3 @@ class GSet extends CRDTSet {
     return new GSet(json.values)
   }
 }
-
-module.exports = GSet

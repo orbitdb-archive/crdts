@@ -1,7 +1,5 @@
-'use strict'
-
-const assert = require('assert')
-const { GCounter, PNCounter } = require('../src')
+import assert from 'assert'
+import { GCounter, PNCounter } from '../src/index.js'
 
 describe('PN-Counter', () => {
   describe('Instance', () => {

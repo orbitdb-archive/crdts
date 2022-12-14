@@ -1,6 +1,4 @@
-'use strict'
-
-class LamportClock {
+export default class LamportClock {
   constructor (id, time) {
     this.id = id
     this.time = time || 0
@@ -37,5 +35,3 @@ class LamportClock {
     return dist
   }
 }
-
-module.exports = LamportClock

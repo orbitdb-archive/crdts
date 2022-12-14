@@ -1,6 +1,4 @@
-'use strict'
-
-const { OperationTuple3 } = require('./utils')
+import { OperationTuple3 } from './utils.js'
 
 /**
  * CmRDT-Set
@@ -26,7 +24,7 @@ const { OperationTuple3 } = require('./utils')
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
  * http://hal.upmc.fr/inria-00555588/document
  */
-class CmRDTSet extends Set {
+export default class CmRDTSet extends Set {
   /**
    * Create a new CmRDTSet instance
    * @override
@@ -277,5 +275,3 @@ class CmRDTSet extends Set {
     return difference
   }
 }
-
-module.exports = CmRDTSet

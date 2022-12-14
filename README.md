@@ -32,15 +32,7 @@ $ npm install crdts
 ## Usage
 
 ```javascript
-const GCounter = require('crdts').GCounter
-const PNCounter = require('crdts').PNCounter
-const GSet = require('crdts').GSet
-const TwoPSet = require('crdts').TwoPSet
-const ORSet = require('crdts').ORSet
-const LWWSet = require('crdts').LWWSet
-
-// Or:
-const { GSet, ORSet, LWWSet } = require('crdts')
+import { GCounter, PNCounter, GSet, TwoPSet, ORSet, LWWSet, GSet, ORSet, LWWSet } from 'crdts'
 ```
 
 See the [source code for each CRDT](https://github.com/orbitdb/crdts/blob/master/src) for the APIs and [tests](https://github.com/orbitdb/crdts/blob/master/test/) for usage examples.

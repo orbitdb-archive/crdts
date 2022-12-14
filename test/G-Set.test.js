@@ -1,7 +1,5 @@
-'use strict'
-
-const assert = require('assert')
-const { GSet, CmRDTSet } = require('../src')
+import assert from 'assert'
+import { GSet, CmRDTSet } from '../src/index.js'
 
 describe('G-Set', () => {
   describe('Instance', () => {

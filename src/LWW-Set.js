@@ -1,6 +1,4 @@
-'use strict'
-
-const CRDTSet = require('./CmRDT-Set')
+import CRDTSet from './CmRDT-Set.js'
 
 /**
  * LWWSet-Set
@@ -14,7 +12,7 @@ const CRDTSet = require('./CmRDT-Set')
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
  * http://hal.upmc.fr/inria-00555588/document, "Figure 8: LWW-Set (state-based)"
  */
-class LWWSet extends CRDTSet {
+export default class LWWSet extends CRDTSet {
   /**
    * @override
    * 
@@ -53,5 +51,3 @@ class LWWSet extends CRDTSet {
     return new LWWSet(json.values)
   }
 }
-
-module.exports = LWWSet

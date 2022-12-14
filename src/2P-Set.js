@@ -1,7 +1,5 @@
-'use strict'
-
-const CRDTSet = require('./CmRDT-Set')
-const GSet = require('./G-Set.js')
+import CRDTSet from './CmRDT-Set.js'
+import GSet from './G-Set.js'
 
 /**
  * 2P-Set
@@ -15,7 +13,7 @@ const GSet = require('./G-Set.js')
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
  * http://hal.upmc.fr/inria-00555588/document, "3.3.2 2P-Set"
  */
-class TwoPSet extends CRDTSet {
+ export default class TwoPSet extends CRDTSet {
   /**
    * Create a new TwoPSet instance
    * @param  {[Iterable]} added   [Added values]
@@ -95,5 +93,3 @@ class TwoPSet extends CRDTSet {
     return new TwoPSet(json.values.added, json.values.removed)
   }
 }
-
-module.exports = TwoPSet
