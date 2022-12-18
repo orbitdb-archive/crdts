@@ -179,7 +179,7 @@ describe('Sets - Common', () => {
       it('returns true if two Sets are equal', () => {
         const crdt1 = CRDT.create(CRDT.inputData)
         const crdt2 = CRDT.create(CRDT.inputData)
-        const crdt3 = CRDT.create([])
+        const crdt3 = CRDT.create({})
         assert.equal(CRDT.isEqual(crdt1, crdt2), true)
         const isEqual = CRDT.isEqual(crdt1, crdt3)
         assert.equal(isEqual, false)

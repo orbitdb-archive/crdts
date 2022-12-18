@@ -3,7 +3,7 @@
   "version": "0.1.5",
   "description": "A library of Conflict-Free Replicated Data Types for JavaScript.",
   "type": "module",
-  "main": "src/index.js",
+  "main": "./src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/orbitdb/crdts"
