@@ -1,30 +1,8 @@
 // Export all supported CRDTs
-exports.GCounter = GCounter = require('./G-Counter')
-exports.CmRDTSet = CmRDTSet = require('./CmRDT-Set')
-exports.GSet = GSet = require('./G-Set')
-exports.TwoPSet = TwoPSet = require('./2P-Set')
-exports.ORSet = ORSet = require('./OR-Set')
-exports.LWWSet = LWWSet = require('./LWW-Set')
-exports.PNCounter = PNCounter = require('./PN-Counter.js')
-
-/**
- * CRDTs
- * 
- * Usage:
- *
- * const CRDTs = require('./index.js')
- * const { GCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
- *
- * Or
- *
- * const GSet = require('./index.js').GSet
- */
-module.exports = {
-  GCounter: GCounter,
-  PNCounter: PNCounter,
-  CmRDTSet: CmRDTSet,
-  GSet: GSet,
-  TwoPSet: TwoPSet,
-  ORSet: ORSet,
-  LWWSet: LWWSet,
-}
+export { default as GCounter } from './G-Counter.js'
+export { default as CmRDTSet } from './CmRDT-Set.js'
+export { default as GSet } from './G-Set.js'
+export { default as TwoPSet } from './2P-Set.js'
+export { default as ORSet } from './OR-Set.js'
+export { default as LWWSet } from './LWW-Set.js'
+export { default as PNCounter } from './PN-Counter.js'

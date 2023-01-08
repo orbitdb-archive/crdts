@@ -1,6 +1,4 @@
-'use strict'
-
-exports.deepEqual = (a, b) => {
+const deepEqual = (a, b) => {
   const propsA = Object.getOwnPropertyNames(a)
   const propsB = Object.getOwnPropertyNames(b)
 
@@ -32,4 +30,7 @@ class OperationTuple3 {
   }
 }
 
-exports.OperationTuple3 = OperationTuple3
+export {
+  deepEqual,
+  OperationTuple3
+}

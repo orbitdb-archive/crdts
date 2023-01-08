@@ -1,7 +1,5 @@
-'use strict'
-
-const assert = require('assert')
-const { GCounter, PNCounter } = require('../src')
+import assert from 'assert'
+import { GCounter, PNCounter } from '../src/index.js'
 
 describe('PN-Counter', () => {
   describe('Instance', () => {
@@ -183,9 +181,10 @@ describe('PN-Counter', () => {
     describe('toJSON', () => {
       it('returns the counter as JSON object', () => {
         const counter = new PNCounter('A')
+        console.log(counter.toJSON())
         assert.equal(counter.toJSON().id, 'A')
-        assert.equal(counter.toJSON().p._counters.A, 0)
-        assert.equal(counter.toJSON().n._counters.A, 0)
+        assert.equal(counter.toJSON().p.A, 0)
+        assert.equal(counter.toJSON().n.A, 0)
       })
 
       it('returns a JSON object after a merge', () => {
@@ -197,16 +196,16 @@ describe('PN-Counter', () => {
         counter2.decrement()
         counter1.merge(counter2)
         counter2.merge(counter1)
-        assert.equal(Object.keys(counter1.toJSON().p._counters).length, 2)
-        assert.equal(Object.keys(counter1.toJSON().n._counters).length, 2)
-        assert.equal(counter1.toJSON().p._counters.A, 1)
-        assert.equal(counter1.toJSON().p._counters.B, 1)
-        assert.equal(counter2.toJSON().p._counters.A, 1)
-        assert.equal(counter2.toJSON().p._counters.B, 1)
-        assert.equal(counter1.toJSON().n._counters.A, 1)
-        assert.equal(counter1.toJSON().n._counters.B, 1)
-        assert.equal(counter2.toJSON().n._counters.A, 1)
-        assert.equal(counter2.toJSON().n._counters.B, 1)
+        assert.equal(Object.keys(counter1.toJSON().p).length, 2)
+        assert.equal(Object.keys(counter1.toJSON().n).length, 2)
+        assert.equal(counter1.toJSON().p.A, 1)
+        assert.equal(counter1.toJSON().p.B, 1)
+        assert.equal(counter2.toJSON().p.A, 1)
+        assert.equal(counter2.toJSON().p.B, 1)
+        assert.equal(counter1.toJSON().n.A, 1)
+        assert.equal(counter1.toJSON().n.B, 1)
+        assert.equal(counter2.toJSON().n.A, 1)
+        assert.equal(counter2.toJSON().n.B, 1)
       })
     })
 

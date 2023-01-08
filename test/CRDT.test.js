@@ -1,10 +1,6 @@
-'use strict'
-
-const assert = require('assert')
-
-const CRDTs = require('../src')
-const { GCounter, PNCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
-const CmRDTSet = require('../src/CmRDT-Set')
+import assert from 'assert'
+import { GCounter, PNCounter, GSet, TwoPSet, ORSet, LWWSet } from '../src/index.js'
+import CmRDTSet from '../src/CmRDT-Set.js'
 
 const crdts = [
   {

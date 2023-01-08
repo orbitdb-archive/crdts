@@ -1,10 +1,6 @@
-'use strict'
-
-const assert = require('assert')
-
-const CRDTs = require('../src')
-const { GCounter, GSet, TwoPSet, ORSet, LWWSet } = CRDTs
-const CmRDTSet = require('../src/CmRDT-Set')
+import assert from 'assert'
+import { GCounter, GSet, TwoPSet, ORSet, LWWSet } from '../src/index.js'
+import CmRDTSet from '../src/CmRDT-Set.js'
 
 const added = [1, 2, 3]
 const removed = [1]
@@ -183,7 +179,7 @@ describe('Sets - Common', () => {
       it('returns true if two Sets are equal', () => {
         const crdt1 = CRDT.create(CRDT.inputData)
         const crdt2 = CRDT.create(CRDT.inputData)
-        const crdt3 = CRDT.create([])
+        const crdt3 = CRDT.create({})
         assert.equal(CRDT.isEqual(crdt1, crdt2), true)
         const isEqual = CRDT.isEqual(crdt1, crdt3)
         assert.equal(isEqual, false)

@@ -1,6 +1,4 @@
-'use strict'
-
-const { deepEqual } = require('./utils')
+import { deepEqual } from './utils.js'
 const sum = (acc, val) => acc + val
 
 /**
@@ -13,7 +11,7 @@ const sum = (acc, val) => acc + val
  * http://hal.upmc.fr/inria-00555588/document, "3.1.1 Op-based counter and 3.1.2  State-based increment-only Counter (G-Counter)"
  */
 
-class GCounter {
+export default class GCounter {
   constructor (id, counter) {
     this.id = id
     this._counters = counter ? counter : {}
@@ -64,5 +62,3 @@ class GCounter {
     return deepEqual(a._counters, b._counters)
   }
 }
-
-module.exports = GCounter

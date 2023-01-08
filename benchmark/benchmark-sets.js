@@ -1,10 +1,8 @@
-'use strict'
-
 // All supported Set CRDTs
-const GSet = require('../src/G-Set')
-const TwoPSet = require('../src/2P-Set')
-const ORSet = require('../src/OR-Set')
-const LWWSet = require('../src/LWW-Set')
+import GSet  from '../src/G-Set.js'
+import TwoPSet  from '../src/2P-Set.js'
+import ORSet  from '../src/OR-Set.js'
+import LWWSet  from '../src/LWW-Set.js'
 
 // Choose your weapon from ^
 const SetCRDT = GSet
@@ -26,14 +24,14 @@ const queryLoop = () => {
   setImmediate(queryLoop)
 }
 
-let run = (() => {
-  console.log('Starting benchmark...')
+export default (() => {
+  console.log('Starting benchmark....js')
   // Output metrics at 1 second interval
   setInterval(() => {
     seconds++
     if (seconds % 10 === 0) {
       console.log(`--> Average of ${lastTenSeconds / 10} q/s in the last 10 seconds`)
-      if (lastTenSeconds === 0) throw new Error('Problems!')
+      if (lastTenSeconds === 0) throw new Error('Problems!.js')
       lastTenSeconds = 0
     }
     console.log(`${queriesPerSecond} queries per second, ${totalQueries} queries in ${seconds} seconds`)
@@ -42,5 +40,3 @@ let run = (() => {
 
   setImmediate(queryLoop)
 })()
-
-module.exports = run

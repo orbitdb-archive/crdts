@@ -1,6 +1,4 @@
-'use strict'
-
-const CRDTSet = require('./CmRDT-Set')
+import CRDTSet from './CmRDT-Set.js'
 
 /**
  * OR-Set
@@ -14,7 +12,7 @@ const CRDTSet = require('./CmRDT-Set')
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
  * http://hal.upmc.fr/inria-00555588/document, "3.3.5 Observed-Remove Set (OR-Set)"
  */
-class ORSet extends CRDTSet {
+export default class ORSet extends CRDTSet {
   /**
    * @override
    * 
@@ -82,5 +80,3 @@ class ORSet extends CRDTSet {
     return new ORSet(json.values)
   }
 }
-
-module.exports = ORSet

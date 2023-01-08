@@ -1,8 +1,6 @@
-'use strict'
+import GCounter from '../src/G-Counter.js'
 
-const GCounter = require('../src/G-Counter.js')
-
-class PNCounter {
+export default class PNCounter {
   constructor (id, pCounters, nCounters) {
     this.id = id
     this.p = new GCounter(id, pCounters)
@@ -46,5 +44,3 @@ class PNCounter {
     return GCounter.isEqual(a.p, b.p) && GCounter.isEqual(a.n, b.n)
   }
 }
-
-module.exports = PNCounter

@@ -1,8 +1,6 @@
-'use strict'
-
-const assert = require('assert')
-const { LWWSet, CmRDTSet } = require('../src')
-const LamportClock = require('./lamport-clock')
+import assert from 'assert'
+import { LWWSet, CmRDTSet } from '../src/index.js'
+import LamportClock from './lamport-clock.js'
 
 describe('LWW-Set', () => {
   describe('Instance', () => {

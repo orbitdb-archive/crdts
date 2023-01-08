@@ -1,7 +1,5 @@
-'use strict'
-
-const assert = require('assert')
-const { TwoPSet, GSet, CmRDTSet } = require('../src')
+import assert from 'assert'
+import { TwoPSet, GSet, CmRDTSet } from '../src/index.js'
 
 describe('2P-Set', () => {
   describe('Instance', () => {
@@ -335,4 +333,3 @@ describe('2P-Set', () => {
     })
   })
 })
-
