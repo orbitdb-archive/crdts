@@ -1,10 +1,12 @@
 import GCounter from '../src/G-Counter.js'
 
+const isGCounter = (obj) => obj && obj instanceof GCounter
+
 export default class PNCounter {
   constructor (id, pCounters, nCounters) {
     this.id = id
-    this.p = new GCounter(id, pCounters)
-    this.n = new GCounter(id, nCounters)
+    this.p = isGCounter(pCounters) ? pCounters : new GCounter(id, pCounters)
+    this.n = isGCounter(nCounters) ? nCounters : new GCounter(id, nCounters)
   }
 
   get value() {
