@@ -181,7 +181,6 @@ describe('PN-Counter', () => {
     describe('toJSON', () => {
       it('returns the counter as JSON object', () => {
         const counter = new PNCounter('A')
-        console.log(counter.toJSON())
         assert.equal(counter.toJSON().id, 'A')
         assert.equal(counter.toJSON().p.A, 0)
         assert.equal(counter.toJSON().n.A, 0)
