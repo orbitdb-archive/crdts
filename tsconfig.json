@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "dist",
+    "allowJs": true,
+    "checkJs": true,
+    "target": "ES2020",
+    "module": "ES2020",
+    "lib": ["ES2021", "ES2021.Promise", "ES2021.String", "ES2020.BigInt", "DOM", "DOM.Iterable"],
+    "noEmit": false,
+    "noEmitOnError": true,
+    "emitDeclarationOnly": false,
+    "declaration": true,
+    "declarationMap": true,
+    "incremental": true,
+    "composite": true,
+    "isolatedModules": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "importsNotUsedAsValues": "error",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "stripInternal": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ]
+}

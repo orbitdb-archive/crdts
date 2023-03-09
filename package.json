@@ -3,10 +3,32 @@
   "version": "0.2.0",
   "description": "A library of Conflict-Free Replicated Data Types for JavaScript.",
   "type": "module",
-  "main": "./src/index.js",
+  "types": "./dist/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/orbitdb/crdts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "*",
+        "dist/*",
+        "dist/src/*",
+        "dist/src/*/index"
+      ]
+    }
+  },
+  "files": [
+    "src",
+    "dist",
+    "!dist/test",
+    "!**/*.tsbuildinfo"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./dist/src/index.js"
+    }
   },
   "bugs": "https://github.com/orbitdb/crdts/issues",
   "author": "Haad",
@@ -26,7 +48,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha",
+    "build": "mkdir -p dist/src && cp src/*.js dist/src/ && tsc"
   },
   "localMaintainers": [
     "haad <haad@haja.io>",
@@ -35,6 +58,7 @@
   ],
   "devDependencies": {
     "istanbul": "^0.4.5",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5"
   }
 }
