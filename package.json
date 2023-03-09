@@ -47,9 +47,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha dist/test",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha",
-    "build": "mkdir -p dist/src && cp src/*.js dist/src/ && tsc"
+    "build": "mkdir -p dist/src dist/test && cp src/*.js dist/src/ && cp test/*.js dist/test/ && tsc"
   },
   "localMaintainers": [
     "haad <haad@haja.io>",
