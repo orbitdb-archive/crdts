@@ -35,7 +35,7 @@ export default class CmRDTSet<V=unknown, T=unknown> extends Set<V> {
 	// a value is in the set
 	protected _operations: OperationTuple3<V, T>[]
 
-	protected _options: Partial<{ compareFunc: (a: V, b: V) => boolean }> = {}
+	protected _options: Partial<{ compareFunc: (a: T, b: T) => boolean }> = {}
 
   /**
    * Create a new CmRDTSet instance
@@ -48,7 +48,7 @@ export default class CmRDTSet<V=unknown, T=unknown> extends Set<V> {
    * @param  {[Iterable]} iterable [Opetional Iterable object (eg. Array, Set) to create the Set from]
    * @param  {[Object]}   options  [Options to pass to the Set. Currently supported: `{ compareFunc: (a, b) => true|false }`]
    */
-  constructor (iterable?: Iterable<{ value: V, added: T[], removed: T[] }>, options?: Partial<{ compareFunc: (a: V, b: V) => boolean }>) {
+  constructor (iterable?: Iterable<{ value: V, added: T[], removed: T[] }>, options?: Partial<{ compareFunc: (a: T, b: T) => boolean }>) {
     super()
 
     this._operations = iterable ? [...iterable].map(OperationTuple3.from) : []
@@ -105,23 +105,6 @@ export default class CmRDTSet<V=unknown, T=unknown> extends Set<V> {
    * @param {[Any]} value [Value to add to the Set]
    * @param {[Any]} tag   [Optional tag for this add operation, eg. a clock]
    */
-  /*
-  add (value: V, tag?: T): this {
-    // If the value is not in the set yet
-    if (!this._values.has(value)) {
-      // Create an operation for the value and apply it to this set
-      const addOperation = OperationTuple3.create<V, T>(value, tag != null ? [tag] : [], [])
-      this._applyOperation(addOperation)
-    } else {
-      // If the value is in the set, add a tag to its added set
-      if (tag != null)
-        this._findOperationsFor(value).map(val => val.added.add(tag))
-    }
-
-    return this
-  }
-	*/
-
   // @ts-ignore TS2416 We are modifying the signature of Set here.
   add (value: V, tag: T): this {
     // If the value is not in the set yet
@@ -226,7 +209,7 @@ export default class CmRDTSet<V=unknown, T=unknown> extends Set<V> {
    * @param  {[type]} compareFunc [Comparison function to compare elements with]
    * @return {[type]}             [true if element should be included in the current state]
    */
-  protected _resolveValueState (added: Set<T>, removed: Set<T>, compareFunc?: (a: V, b: V) => boolean) {
+  protected _resolveValueState (added: Set<T>, removed: Set<T>, compareFunc?: (a: T, b: T) => boolean) {
     // By default, if there's an add operation present,
     // and there are no remove operations, we include
     // the value in the set
@@ -271,7 +254,7 @@ export default class CmRDTSet<V=unknown, T=unknown> extends Set<V> {
    * @param  {[Object]} json [Input object to create the Set from. Needs to be: '{ values: [] }']
    * @return {[Set]}         [new Set instance]
    */
-  static from<V, T> (json: { values: { value: V, added: T[], removed: T[] }[] }): CmRDTSet<V, T> {
+  static from<V=unknown, T=unknown> (json: { values: { value: V, added: T[], removed: T[] }[] }): CmRDTSet<V, T> {
     return new CmRDTSet<V, T>(json.values)
   }
 
