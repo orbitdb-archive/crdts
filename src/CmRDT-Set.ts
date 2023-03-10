@@ -122,7 +122,7 @@ export default class CmRDTSet<V=unknown, T=unknown> extends Set<V> {
   }
 	*/
 
-	// @ts-ignore TS2416 We are modifying the signature of Set here.
+  // @ts-ignore TS2416 We are modifying the signature of Set here.
   add (value: V, tag: T): this {
     // If the value is not in the set yet
     if (!this._values.has(value)) {
