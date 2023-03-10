@@ -46,7 +46,7 @@ export default class GSet<V=unknown, T=unknown> extends CRDTSet<V, T> {
    */
   add (value: V): this {
     this._values.add(value)
-    return this;
+    return this
   }
 
   // G-Set doesn't allow removal of values, throw an error
