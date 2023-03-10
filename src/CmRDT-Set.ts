@@ -209,7 +209,7 @@ export default class CmRDTSet<V=unknown, T=unknown> extends Set<V> {
    * @param  {[type]} compareFunc [Comparison function to compare elements with]
    * @return {[type]}             [true if element should be included in the current state]
    */
-  protected _resolveValueState (added: Set<T>, removed: Set<T>, compareFunc?: (a: T, b: T) => boolean) {
+  protected _resolveValueState (added: Set<T>, removed: Set<T>, compareFunc?: (a: T, b: T) => boolean): boolean {
     // By default, if there's an add operation present,
     // and there are no remove operations, we include
     // the value in the set

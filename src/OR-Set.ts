@@ -52,7 +52,7 @@ export default class ORSet<V=unknown, T=unknown> extends CRDTSet<V, T> {
    * @param  {[type]} compareFunc [Comparison function to compare elements with]
    * @return {[type]}             [true if element should be included in the current state]
    */
-  _resolveValueState (added: Set<T>, removed: Set<T>, compareFunc: (a: T, b: T) => boolean) {
+  _resolveValueState (added: Set<T>, removed: Set<T>, compareFunc: (a: T, b: T) => boolean): boolean {
     // Check if a tag is included in the remove set
     const hasMatchingRemoveOperation = (addTag: T) => {
       // Check if remove tags includes the add tag, ie. check for
@@ -75,7 +75,7 @@ export default class ORSet<V=unknown, T=unknown> extends CRDTSet<V, T> {
    * @param  {[Object]} json [Input object to create the ORSet from. Needs to be: '{ values: [] }']
    * @return {[ORSet]}      [new ORSet instance]
    */
-  static from<V=unknown, T=unknown> (json: { values: { value: V, added: T[], removed: T[] }[] }) {
+  static from<V=unknown, T=unknown> (json: { values: { value: V, added: T[], removed: T[] }[] }): ORSet<V, T> {
     return new ORSet(json.values)
   }
 }
