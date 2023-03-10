@@ -13,13 +13,15 @@ import GSet from './G-Set.js'
  * "A comprehensive study of Convergent and Commutative Replicated Data Types"
  * http://hal.upmc.fr/inria-00555588/document, "3.3.2 2P-Set"
  */
- export default class TwoPSet extends CRDTSet {
+ export default class TwoPSet<V=unknown, T=unknown> extends CRDTSet<V, T> {
+  protected _added: GSet<V, T>
+	protected _removed: GSet<V, T>
   /**
    * Create a new TwoPSet instance
    * @param  {[Iterable]} added   [Added values]
    * @param  {[Iterable]} removed [Removed values]
    */
-  constructor (added, removed) {
+  constructor (added: Iterable<V>, removed: Iterable<V>) {
     super()
     // We track the operations and state differently
     // than the base class: use two GSets for operations
@@ -32,11 +34,13 @@ import GSet from './G-Set.js'
    * @override
    * @return {[Iterator]} [Iterator for values in the Set]
    */
-  values () {
-    // A value is included in the set if it's present in 
+  values (): IterableIterator<V> {
+    // A value is included in the set if it's present in
     // the add set and not present in the remove set. We can
     // determine this by calculating the difference between
     // adds and removes.
+
+    // @ts-ignore merge is different between GSet and CmRDTSet.
     const difference = GSet.difference(this._added, this._removed)
     return difference.values()
   }
@@ -45,8 +49,10 @@ import GSet from './G-Set.js'
    * Add a value to the Set
    * @param {[Any]} value [Value to add to the Set]
    */
-  add (element) {
+  add (element: V): this {
     this._added.add(element)
+
+    return this
   }
 
   /**
@@ -54,7 +60,7 @@ import GSet from './G-Set.js'
    * @override
    * @param  {[Any]} element [Value to remove from the Set]
    */
-  remove (element) {
+  remove (element: V) {
     // Only add the value to the remove set if it exists in the add set
     if (this._added.has(element)) {
       this._removed.add(element)
@@ -66,7 +72,8 @@ import GSet from './G-Set.js'
    * @override
    * @param  {[TwoPSet]} other [Set to merge with]
    */
-  merge (other) {
+  // @ts-ignore TS2416 We are modifying the signature of CRDTSet here.
+  merge (other: TwoPSet<V, T>) {
     this._added = new GSet(this._added.toArray().concat(other._added.toArray()))
     this._removed = new GSet(this._removed.toArray().concat(other._removed.toArray()))
   }
@@ -75,7 +82,8 @@ import GSet from './G-Set.js'
    * TwoPSet as an Object that can be JSON.stringified
    * @return {[Object]} [Object in the shape of `{ values: { added: [<values>], removed: [<values>] } }`]
    */
-  toJSON () {
+  // @ts-ignore TS2416 We are modifying the signature of CRDTSet here.
+  toJSON (): { values: { added: V[], removed: V[] } } {
     return {
       values: {
         added: this._added.toArray(),
@@ -89,7 +97,7 @@ import GSet from './G-Set.js'
    * @param  {[Object]} json [Input object to create the GSet from. Needs to be: '{ values: { added: [...], removed: [...] } }']
    * @return {[TwoPSet]}        [new TwoPSet instance]
    */
-  static from (json) {
+  static from<V=unknown, T=unknown> (json: { values: { added: V[], removed: V[] } }): TwoPSet<V, T> {
     return new TwoPSet(json.values.added, json.values.removed)
   }
 }

@@ -3,10 +3,32 @@
   "version": "0.2.0",
   "description": "A library of Conflict-Free Replicated Data Types for JavaScript.",
   "type": "module",
-  "main": "./src/index.js",
+  "types": "./dist/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/orbitdb/crdts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "*",
+        "dist/*",
+        "dist/src/*",
+        "dist/src/*/index"
+      ]
+    }
+  },
+  "files": [
+    "src",
+    "dist",
+    "!dist/test",
+    "!**/*.tsbuildinfo"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./dist/src/index.js"
+    }
   },
   "bugs": "https://github.com/orbitdb/crdts/issues",
   "author": "Haad",
@@ -25,8 +47,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
+    "test": "mocha dist/test",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha",
+    "build": "mkdir -p dist/test && cp test/*.js dist/test/ && tsc"
   },
   "localMaintainers": [
     "haad <haad@haja.io>",
@@ -34,7 +57,10 @@
     "hajamark <mark@haja.io>"
   ],
   "devDependencies": {
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.15.0",
     "istanbul": "^0.4.5",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5"
   }
 }
